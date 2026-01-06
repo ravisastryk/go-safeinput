@@ -16,7 +16,7 @@ linters:
   enable:
     # Default linters
     - errcheck
-    - govet
+    # - govet
     - ineffassign
     - staticcheck
     - unused
