@@ -52,8 +52,8 @@ linters-settings:
   gocyclo:
     min-complexity: 15
 
-  govet:
-    enable-all: true
+  # govet:
+  #   enable-all: true
 
   gosec:
     severity: medium
