@@ -6,7 +6,7 @@
 # -----------------------------------------------------------------------------
 # Stage 1: Build
 # -----------------------------------------------------------------------------
-FROM golang:1.24-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 # Install build dependencies
 RUN apk add --no-cache git ca-certificates tzdata
@@ -39,7 +39,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
 # -----------------------------------------------------------------------------
 # Stage 2: Security Scanner
 # -----------------------------------------------------------------------------
-FROM golang:1.24-alpine AS security
+FROM golang:1.25-alpine AS security
 
 RUN apk add --no-cache git
 
@@ -72,7 +72,7 @@ ENTRYPOINT ["/safeinput"]
 # -----------------------------------------------------------------------------
 # Stage 4: Development
 # -----------------------------------------------------------------------------
-FROM golang:1.24-alpine AS development
+FROM golang:1.25-alpine AS development
 
 RUN apk add --no-cache git make bash curl
 
