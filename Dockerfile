@@ -23,8 +23,12 @@ RUN go mod download
 # Copy source code
 COPY . .
 
-# Run tests
-RUN go test -v -race -coverprofile=coverage.out $(go list ./... | grep -v /cmd/)
+# Run race detection only when CGO is available
+RUN if [ "$CGO_ENABLED" = "1" ]; then \
+      go test -v -race -coverprofile=coverage.out $(go list ./... | grep -v /cmd/); \
+    else \
+      go test -v -coverprofile=coverage.out $(go list ./... | grep -v /cmd/); \
+    fi
 
 # Build the binary
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
