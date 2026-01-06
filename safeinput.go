@@ -59,9 +59,9 @@ type Sanitizer struct {
 // Config holds sanitizer configuration options.
 type Config struct {
 	MaxInputLength  int
-	StrictMode      bool
 	AllowedHTMLTags []string
 	BasePath        string
+	StrictMode      bool
 	StripNullBytes  bool
 }
 

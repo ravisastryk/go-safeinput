@@ -79,6 +79,7 @@ func (s *Sanitizer) ValidateValue(input string) (string, error) {
 type QuoteStyle int
 
 const (
+	// QuoteStyleNone represents no quoting.
 	QuoteStyleNone QuoteStyle = iota
 	QuoteStyleStandard
 	QuoteStyleMySQL

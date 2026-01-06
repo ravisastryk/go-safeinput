@@ -32,30 +32,73 @@ func New(basePath string) *Sanitizer {
 	return &Sanitizer{basePath: basePath}
 }
 
+// validateCharacters checks for invalid characters.
+func validateCharacters(input string) error {
+	if strings.ContainsRune(input, 0) {
+		return ErrInvalidCharacter
+	}
+	for _, r := range input {
+		if r < 32 && r != '\t' {
+			return ErrInvalidCharacter
+		}
+		if r == 127 {
+			return ErrInvalidCharacter
+		}
+	}
+	return nil
+}
+
+// checkTraversalSequences checks for path traversal patterns.
+func checkTraversalSequences(normalized string) error {
+	lower := strings.ToLower(normalized)
+	for _, seq := range blockedSequences {
+		if strings.Contains(lower, seq) {
+			return ErrPathTraversal
+		}
+	}
+	return nil
+}
+
+// checkTraversalPaths checks for traversal in the cleaned path.
+func checkTraversalPaths(cleaned string) error {
+	if strings.HasPrefix(cleaned, "..") ||
+		strings.Contains(cleaned, string(filepath.Separator)+"..") {
+		return ErrPathTraversal
+	}
+	return nil
+}
+
+// verifyWithinBasePath verifies the path is within the base directory.
+func (s *Sanitizer) verifyWithinBasePath(cleaned string) error {
+	absBase, err := filepath.Abs(s.basePath)
+	if err != nil {
+		return err
+	}
+	absResult, err := filepath.Abs(filepath.Join(s.basePath, cleaned))
+	if err != nil {
+		return err
+	}
+	if !strings.HasPrefix(absResult, absBase+string(filepath.Separator)) &&
+		absResult != absBase {
+		return ErrOutsideBasePath
+	}
+	return nil
+}
+
 // Sanitize validates and cleans a file path.
 func (s *Sanitizer) Sanitize(input string) (string, error) {
 	if input == "" {
 		return "", ErrEmptyPath
 	}
-	if strings.ContainsRune(input, 0) {
-		return "", ErrInvalidCharacter
-	}
-	for _, r := range input {
-		if r < 32 && r != '\t' {
-			return "", ErrInvalidCharacter
-		}
-		if r == 127 {
-			return "", ErrInvalidCharacter
-		}
+
+	if err := validateCharacters(input); err != nil {
+		return "", err
 	}
 
 	normalized := filepath.FromSlash(input)
-	lower := strings.ToLower(normalized)
 
-	for _, seq := range blockedSequences {
-		if strings.Contains(lower, seq) {
-			return "", ErrPathTraversal
-		}
+	if err := checkTraversalSequences(normalized); err != nil {
+		return "", err
 	}
 
 	cleaned := filepath.Clean(normalized)
@@ -64,23 +107,13 @@ func (s *Sanitizer) Sanitize(input string) (string, error) {
 		return "", ErrAbsolutePath
 	}
 
-	if strings.HasPrefix(cleaned, "..") ||
-		strings.Contains(cleaned, string(filepath.Separator)+"..") {
-		return "", ErrPathTraversal
+	if err := checkTraversalPaths(cleaned); err != nil {
+		return "", err
 	}
 
 	if s.basePath != "" {
-		absBase, err := filepath.Abs(s.basePath)
-		if err != nil {
+		if err := s.verifyWithinBasePath(cleaned); err != nil {
 			return "", err
-		}
-		absResult, err := filepath.Abs(filepath.Join(s.basePath, cleaned))
-		if err != nil {
-			return "", err
-		}
-		if !strings.HasPrefix(absResult, absBase+string(filepath.Separator)) &&
-			absResult != absBase {
-			return "", ErrOutsideBasePath
 		}
 	}
 
