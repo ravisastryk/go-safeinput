@@ -23,7 +23,7 @@ Universal input sanitization for Go applications - MITRE CWE Top 25 coverage.
 
 ## Requirements
 
-- Go 1.25.2 or higher
+- Go 1.24 or higher
 - Docker (optional)
 
 ## Installation

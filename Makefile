@@ -4,7 +4,7 @@
 .PHONY: all build test lint security clean docker help
 
 # Variables
-GO_VERSION := 1.25.2
+GO_VERSION := 1.24
 BINARY_NAME := safeinput
 COVERAGE_THRESHOLD := 90
 
