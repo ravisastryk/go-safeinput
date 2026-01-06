@@ -1,0 +1,104 @@
+# golangci-lint configuration
+# https://golangci-lint.run/usage/configuration/
+
+run:
+  timeout: 5m
+  go: "1.25"
+  tests: true
+  modules-download-mode: readonly
+
+output:
+  formats:
+    - format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+  sort-results: true
+
+linters:
+  enable-all: false
+  enable:
+    # Default linters
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    
+    # Additional linters
+    - bodyclose
+    - dogsled
+    - dupl
+    - exportloopref
+    - funlen
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - goimports
+    - goprintffuncname
+    - gosec
+    - misspell
+    - nakedret
+    - nilerr
+    - noctx
+    - nolintlint
+    - prealloc
+    - revive
+    - stylecheck
+    - unconvert
+    - unparam
+    - whitespace
+
+linters-settings:
+  funlen:
+    lines: 100
+    statements: 50
+
+  gocyclo:
+    min-complexity: 15
+
+  govet:
+    enable-all: true
+
+  gosec:
+    severity: medium
+    confidence: medium
+    excludes:
+      - G104
+      - G304
+
+  revive:
+    rules:
+      - name: blank-imports
+      - name: context-as-argument
+      - name: context-keys-type
+      - name: dot-imports
+      - name: error-return
+      - name: error-strings
+      - name: error-naming
+      - name: exported
+      - name: increment-decrement
+      - name: indent-error-flow
+      - name: package-comments
+      - name: range
+      - name: receiver-naming
+      - name: time-naming
+      - name: unexported-return
+      - name: var-declaration
+      - name: var-naming
+
+  stylecheck:
+    checks: ["all", "-ST1000", "-ST1003"]
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - dupl
+        - funlen
+        - gocyclo
+
+  max-issues-per-linter: 50
+  max-same-issues: 10

@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Development environment
+  dev:
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/app
+      - go-mod-cache:/go/pkg/mod
+    working_dir: /app
+    command: go test -v -race ./...
+
+  # Run tests with coverage
+  test:
+    build:
+      context: .
+      target: builder
+    command: go test -v -race -coverprofile=coverage.out $(go list ./... | grep -v /cmd/)
+
+  # Security scanning
+  security:
+    build:
+      context: .
+      target: security
+    volumes:
+      - ./reports:/app/reports
+
+  # Lint checking
+  lint:
+    build:
+      context: .
+      target: development
+    command: golangci-lint run --timeout=5m ./...
+
+volumes:
+  go-mod-cache:
