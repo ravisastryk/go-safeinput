@@ -81,9 +81,13 @@ type QuoteStyle int
 const (
 	// QuoteStyleNone represents no quoting.
 	QuoteStyleNone QuoteStyle = iota
+	// QuoteStyleStandard represents standard SQL double-quote quoting.
 	QuoteStyleStandard
+	// QuoteStyleMySQL represents MySQL backtick quoting.
 	QuoteStyleMySQL
+	// QuoteStylePostgres represents PostgreSQL double-quote quoting.
 	QuoteStylePostgres
+	// QuoteStyleSQLServer represents SQL Server bracket quoting.
 	QuoteStyleSQLServer
 )
 
