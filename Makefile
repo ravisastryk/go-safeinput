@@ -4,7 +4,7 @@
 .PHONY: all test lint security clean help
 
 # Variables
-GO_VERSION := 1.24
+GO_VERSION := 1.23
 COVERAGE_THRESHOLD := 90
 
 # Default target

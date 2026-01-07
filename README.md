@@ -193,7 +193,7 @@ The library supports the following sanitization contexts:
 
 ## Requirements
 
-- **Go**: 1.24 or higher
+- **Go**: 1.23 or higher
 - **Dependencies**: None (uses only Go standard library)
 
 ## Development

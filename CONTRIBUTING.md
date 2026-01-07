@@ -50,7 +50,7 @@ Feature suggestions are welcome! When suggesting a feature:
 
 3. **Set up your development environment**
    ```bash
-   # Ensure you have Go 1.24+ installed
+   # Ensure you have Go 1.23+ installed
    go version
 
    # Install development tools
