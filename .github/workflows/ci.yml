@@ -27,6 +27,23 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
           cache: true
 
+      - name: Detect golangci-lint built Go version and align config
+        run: |
+          set -euo pipefail
+          BIN_GO=$(golangci-lint --version 2>/dev/null | sed -n 's/.*built with go\([0-9.]*\).*/\1/p') || true
+          if [ -n "$BIN_GO" ]; then
+            echo "golangci-lint binary built with go $BIN_GO"
+            # Replace any `go:` directive in .golangci.yml to match the binary
+            if grep -q "^\s*go:\s*\"[0-9]" .golangci.yml; then
+              sed -E -i "s/^(\s*go:\s*)\"[0-9.]+\"/\1\"$BIN_GO\"/" .golangci.yml
+            else
+              # Insert under run: block if missing
+              awk '/^run:\s*$/ {print; print "  go: \"'"$BIN_GO"'\""; next}1' .golangci.yml > .golangci.yml.tmp && mv .golangci.yml.tmp .golangci.yml
+            fi
+          else
+            echo "Could not detect golangci-lint built Go version; proceeding without modifying config"
+          fi
+
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v6
         with:
