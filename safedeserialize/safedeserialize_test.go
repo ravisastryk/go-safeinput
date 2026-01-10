@@ -32,18 +32,18 @@ type DatabaseConfig struct {
 }
 
 type UnsafeStruct struct {
-	Name string      `json:"name"`
-	Data any `json:"data"`
+	Name string `json:"name"`
+	Data any    `json:"data"`
 }
 
 type MapInterfaceStruct struct {
-	Name   string                 `json:"name"`
+	Name   string         `json:"name"`
 	Fields map[string]any `json:"fields"`
 }
 
 type SliceInterfaceStruct struct {
-	Name  string        `json:"name"`
-	Items []any `json:"items"`
+	Name  string `json:"name"`
+	Items []any  `json:"items"`
 }
 
 // ============================================================================
@@ -262,11 +262,19 @@ func TestDecoder(t *testing.T) {
 		fn   func() error
 	}{
 		{name: "JSON", fn: func() error { return decoder.JSON([]byte(`{"id":1,"name":"a","email":"a@b.c"}`), &SimpleUser{}) }},
-		{name: "JSONReader", fn: func() error { return decoder.JSONReader(strings.NewReader(`{"id":1,"name":"a","email":"a@b.c"}`), &SimpleUser{}) }},
+		{name: "JSONReader", fn: func() error {
+			return decoder.JSONReader(strings.NewReader(`{"id":1,"name":"a","email":"a@b.c"}`), &SimpleUser{})
+		}},
 		{name: "YAML", fn: func() error { return decoder.YAML([]byte("id: 1\nname: a\nemail: a@b.c"), &SimpleUser{}) }},
-		{name: "YAMLReader", fn: func() error { return decoder.YAMLReader(strings.NewReader("id: 1\nname: a\nemail: a@b.c"), &SimpleUser{}) }},
-		{name: "XML", fn: func() error { return decoder.XML([]byte(`<SimpleUser><id>1</id><name>a</name><email>a@b.c</email></SimpleUser>`), &SimpleUser{}) }},
-		{name: "XMLReader", fn: func() error { return decoder.XMLReader(strings.NewReader(`<SimpleUser><id>1</id><name>a</name><email>a@b.c</email></SimpleUser>`), &SimpleUser{}) }},
+		{name: "YAMLReader", fn: func() error {
+			return decoder.YAMLReader(strings.NewReader("id: 1\nname: a\nemail: a@b.c"), &SimpleUser{})
+		}},
+		{name: "XML", fn: func() error {
+			return decoder.XML([]byte(`<SimpleUser><id>1</id><name>a</name><email>a@b.c</email></SimpleUser>`), &SimpleUser{})
+		}},
+		{name: "XMLReader", fn: func() error {
+			return decoder.XMLReader(strings.NewReader(`<SimpleUser><id>1</id><name>a</name><email>a@b.c</email></SimpleUser>`), &SimpleUser{})
+		}},
 	}
 
 	for _, tt := range tests {
