@@ -2,7 +2,7 @@
 // that mitigate CWE-502: Deserialization of Untrusted Data.
 //
 // This package prevents common deserialization vulnerabilities by:
-//   - Rejecting interface{} as deserialization targets
+//   - Rejecting any as deserialization targets
 //   - Enforcing size limits on input data
 //   - Limiting nesting depth to prevent stack exhaustion
 //   - Providing type whitelisting capabilities
@@ -38,6 +38,7 @@ import (
 	"fmt"
 	"io"
 	"reflect"
+	"slices"
 	"sync"
 
 	"gopkg.in/yaml.v3"
@@ -63,14 +64,14 @@ var (
 	// ErrNotPointer is returned when target is not a pointer
 	ErrNotPointer = errors.New("safedeserialize: target must be a pointer")
 
-	// ErrInterfaceTarget is returned when deserializing into interface{}
-	ErrInterfaceTarget = errors.New("safedeserialize: cannot deserialize into interface{} type - use concrete struct")
+	// ErrInterfaceTarget is returned when deserializing into any
+	ErrInterfaceTarget = errors.New("safedeserialize: cannot deserialize into any type - use concrete struct")
 
-	// ErrMapInterface is returned when deserializing into map[string]interface{}
-	ErrMapInterface = errors.New("safedeserialize: cannot deserialize into map with interface{} values")
+	// ErrMapInterface is returned when deserializing into map[string]any
+	ErrMapInterface = errors.New("safedeserialize: cannot deserialize into map with any values")
 
-	// ErrSliceInterface is returned when deserializing into []interface{}
-	ErrSliceInterface = errors.New("safedeserialize: cannot deserialize into slice of interface{}")
+	// ErrSliceInterface is returned when deserializing into []any
+	ErrSliceInterface = errors.New("safedeserialize: cannot deserialize into slice of any")
 
 	// ErrTypeNotAllowed is returned when type is not in the allowed list
 	ErrTypeNotAllowed = errors.New("safedeserialize: type not in allowed types list")
@@ -102,11 +103,11 @@ type Options struct {
 	// - Depth checking before parsing
 	StrictMode bool
 
-	// AllowMapStringInterface permits map[string]interface{} targets
+	// AllowMapStringInterface permits map[string]any targets
 	// Default: false (blocked for security)
 	AllowMapStringInterface bool
 
-	// AllowSliceInterface permits []interface{} targets
+	// AllowSliceInterface permits []any targets
 	// Default: false (blocked for security)
 	AllowSliceInterface bool
 }
@@ -157,7 +158,7 @@ func WithStrictMode(strict bool) Option {
 	}
 }
 
-// WithAllowMapStringInterface permits map[string]interface{} targets
+// WithAllowMapStringInterface permits map[string]any targets
 // Use with caution - this reduces security
 func WithAllowMapStringInterface(allow bool) Option {
 	return func(o *Options) {
@@ -165,7 +166,7 @@ func WithAllowMapStringInterface(allow bool) Option {
 	}
 }
 
-// WithAllowSliceInterface permits []interface{} targets
+// WithAllowSliceInterface permits []any targets
 // Use with caution - this reduces security
 func WithAllowSliceInterface(allow bool) Option {
 	return func(o *Options) {
@@ -174,7 +175,7 @@ func WithAllowSliceInterface(allow bool) Option {
 }
 
 // JSON safely unmarshals JSON data into a concrete type
-func JSON(data []byte, v interface{}, opts ...Option) error {
+func JSON(data []byte, v any, opts ...Option) error {
 	options := DefaultOptions()
 	for _, opt := range opts {
 		opt(options)
@@ -183,7 +184,7 @@ func JSON(data []byte, v interface{}, opts ...Option) error {
 }
 
 // JSONReader safely decodes JSON from an io.Reader
-func JSONReader(r io.Reader, v interface{}, opts ...Option) error {
+func JSONReader(r io.Reader, v any, opts ...Option) error {
 	options := DefaultOptions()
 	for _, opt := range opts {
 		opt(options)
@@ -192,7 +193,7 @@ func JSONReader(r io.Reader, v interface{}, opts ...Option) error {
 }
 
 // YAML safely unmarshals YAML data into a concrete type
-func YAML(data []byte, v interface{}, opts ...Option) error {
+func YAML(data []byte, v any, opts ...Option) error {
 	options := DefaultOptions()
 	for _, opt := range opts {
 		opt(options)
@@ -201,7 +202,7 @@ func YAML(data []byte, v interface{}, opts ...Option) error {
 }
 
 // YAMLReader safely decodes YAML from an io.Reader
-func YAMLReader(r io.Reader, v interface{}, opts ...Option) error {
+func YAMLReader(r io.Reader, v any, opts ...Option) error {
 	options := DefaultOptions()
 	for _, opt := range opts {
 		opt(options)
@@ -210,7 +211,7 @@ func YAMLReader(r io.Reader, v interface{}, opts ...Option) error {
 }
 
 // XML safely unmarshals XML data into a concrete type
-func XML(data []byte, v interface{}, opts ...Option) error {
+func XML(data []byte, v any, opts ...Option) error {
 	options := DefaultOptions()
 	for _, opt := range opts {
 		opt(options)
@@ -219,7 +220,7 @@ func XML(data []byte, v interface{}, opts ...Option) error {
 }
 
 // XMLReader safely decodes XML from an io.Reader
-func XMLReader(r io.Reader, v interface{}, opts ...Option) error {
+func XMLReader(r io.Reader, v any, opts ...Option) error {
 	options := DefaultOptions()
 	for _, opt := range opts {
 		opt(options)
@@ -228,7 +229,7 @@ func XMLReader(r io.Reader, v interface{}, opts ...Option) error {
 }
 
 // Gob safely decodes Gob data into a concrete type
-func Gob(data []byte, v interface{}, opts ...Option) error {
+func Gob(data []byte, v any, opts ...Option) error {
 	options := DefaultOptions()
 	for _, opt := range opts {
 		opt(options)
@@ -237,7 +238,7 @@ func Gob(data []byte, v interface{}, opts ...Option) error {
 }
 
 // GobReader safely decodes Gob from an io.Reader
-func GobReader(r io.Reader, v interface{}, opts ...Option) error {
+func GobReader(r io.Reader, v any, opts ...Option) error {
 	options := DefaultOptions()
 	for _, opt := range opts {
 		opt(options)
@@ -247,7 +248,7 @@ func GobReader(r io.Reader, v interface{}, opts ...Option) error {
 
 // Internal implementations
 
-func jsonUnmarshal(data []byte, v interface{}, opts *Options) error {
+func jsonUnmarshal(data []byte, v any, opts *Options) error {
 	if len(data) == 0 {
 		return ErrEmptyData
 	}
@@ -275,7 +276,7 @@ func jsonUnmarshal(data []byte, v interface{}, opts *Options) error {
 	return json.Unmarshal(data, v)
 }
 
-func jsonDecode(r io.Reader, v interface{}, opts *Options) error {
+func jsonDecode(r io.Reader, v any, opts *Options) error {
 	if err := validateTarget(v, opts); err != nil {
 		return err
 	}
@@ -289,7 +290,7 @@ func jsonDecode(r io.Reader, v interface{}, opts *Options) error {
 	return jsonUnmarshal(data, v, opts)
 }
 
-func yamlUnmarshal(data []byte, v interface{}, opts *Options) error {
+func yamlUnmarshal(data []byte, v any, opts *Options) error {
 	if len(data) == 0 {
 		return ErrEmptyData
 	}
@@ -311,7 +312,7 @@ func yamlUnmarshal(data []byte, v interface{}, opts *Options) error {
 	return yaml.Unmarshal(data, v)
 }
 
-func yamlDecode(r io.Reader, v interface{}, opts *Options) error {
+func yamlDecode(r io.Reader, v any, opts *Options) error {
 	if err := validateTarget(v, opts); err != nil {
 		return err
 	}
@@ -325,7 +326,7 @@ func yamlDecode(r io.Reader, v interface{}, opts *Options) error {
 	return yamlUnmarshal(data, v, opts)
 }
 
-func xmlUnmarshal(data []byte, v interface{}, opts *Options) error {
+func xmlUnmarshal(data []byte, v any, opts *Options) error {
 	if len(data) == 0 {
 		return ErrEmptyData
 	}
@@ -347,7 +348,7 @@ func xmlUnmarshal(data []byte, v interface{}, opts *Options) error {
 	return xml.Unmarshal(data, v)
 }
 
-func xmlDecode(r io.Reader, v interface{}, opts *Options) error {
+func xmlDecode(r io.Reader, v any, opts *Options) error {
 	if err := validateTarget(v, opts); err != nil {
 		return err
 	}
@@ -361,7 +362,7 @@ func xmlDecode(r io.Reader, v interface{}, opts *Options) error {
 	return xmlUnmarshal(data, v, opts)
 }
 
-func gobDecode(r io.Reader, v interface{}, opts *Options) error {
+func gobDecode(r io.Reader, v any, opts *Options) error {
 	if err := validateTarget(v, opts); err != nil {
 		return err
 	}
@@ -372,64 +373,84 @@ func gobDecode(r io.Reader, v interface{}, opts *Options) error {
 }
 
 // validateTarget ensures the deserialization target is safe
-func validateTarget(v interface{}, opts *Options) error {
-	if v == nil {
-		return ErrNilTarget
+func validateTarget(v any, opts *Options) error {
+	elem, err := validatePointerAndValue(v)
+	if err != nil {
+		return err
 	}
 
-	rv := reflect.ValueOf(v)
-	if rv.Kind() != reflect.Ptr {
-		return ErrNotPointer
-	}
-
-	if rv.IsNil() {
-		return ErrNilTarget
-	}
-
-	elem := rv.Elem()
-	if !elem.IsValid() {
-		return ErrNilTarget
-	}
-
-	// Check for interface{} target
+	// Check for any target
 	if elem.Kind() == reflect.Interface {
 		return ErrInterfaceTarget
 	}
 
-	// Check for map[string]interface{}
-	if elem.Kind() == reflect.Map {
-		if elem.Type().Elem().Kind() == reflect.Interface && !opts.AllowMapStringInterface {
-			return ErrMapInterface
-		}
-	}
-
-	// Check for []interface{}
-	if elem.Kind() == reflect.Slice {
-		if elem.Type().Elem().Kind() == reflect.Interface && !opts.AllowSliceInterface {
-			return ErrSliceInterface
-		}
+	// Check for dangerous container types
+	if err := validateContainerTypes(elem, opts); err != nil {
+		return err
 	}
 
 	// Check type whitelist
-	if len(opts.AllowedTypes) > 0 {
-		typeName := elem.Type().String()
-		allowed := false
-		for _, t := range opts.AllowedTypes {
-			if t == typeName {
-				allowed = true
-				break
-			}
-		}
-		if !allowed {
-			return fmt.Errorf("%w: %s", ErrTypeNotAllowed, typeName)
-		}
+	if err := validateTypeWhitelist(elem, opts); err != nil {
+		return err
 	}
 
-	// Recursively check struct fields for interface{} types
+	// Recursively check struct fields for any types
 	if opts.StrictMode && elem.Kind() == reflect.Struct {
 		if err := validateStructFields(elem.Type(), opts, make(map[reflect.Type]bool)); err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+// validatePointerAndValue validates the target is a valid non-nil pointer
+func validatePointerAndValue(v any) (reflect.Value, error) {
+	if v == nil {
+		return reflect.Value{}, ErrNilTarget
+	}
+
+	rv := reflect.ValueOf(v)
+	if rv.Kind() != reflect.Pointer {
+		return reflect.Value{}, ErrNotPointer
+	}
+
+	if rv.IsNil() {
+		return reflect.Value{}, ErrNilTarget
+	}
+
+	elem := rv.Elem()
+	if !elem.IsValid() {
+		return reflect.Value{}, ErrNilTarget
+	}
+
+	return elem, nil
+}
+
+// validateContainerTypes checks for dangerous map and slice types
+func validateContainerTypes(elem reflect.Value, opts *Options) error {
+	switch elem.Kind() {
+	case reflect.Map:
+		if elem.Type().Elem().Kind() == reflect.Interface && !opts.AllowMapStringInterface {
+			return ErrMapInterface
+		}
+	case reflect.Slice:
+		if elem.Type().Elem().Kind() == reflect.Interface && !opts.AllowSliceInterface {
+			return ErrSliceInterface
+		}
+	}
+	return nil
+}
+
+// validateTypeWhitelist checks if the type is allowed per the whitelist
+func validateTypeWhitelist(elem reflect.Value, opts *Options) error {
+	if len(opts.AllowedTypes) == 0 {
+		return nil
+	}
+
+	typeName := elem.Type().String()
+	if !slices.Contains(opts.AllowedTypes, typeName) {
+		return fmt.Errorf("%w: %s", ErrTypeNotAllowed, typeName)
 	}
 
 	return nil
@@ -452,24 +473,24 @@ func validateStructFields(t reflect.Type, opts *Options, visited map[reflect.Typ
 		}
 
 		// Dereference pointers
-		for fieldType.Kind() == reflect.Ptr {
+		for fieldType.Kind() == reflect.Pointer {
 			fieldType = fieldType.Elem()
 		}
 
 		switch fieldType.Kind() {
 		case reflect.Interface:
-			return fmt.Errorf("safedeserialize: struct field %s.%s is interface{} type", t.Name(), field.Name)
+			return fmt.Errorf("safedeserialize: struct field %s.%s is any type", t.Name(), field.Name)
 		case reflect.Map:
 			if fieldType.Elem().Kind() == reflect.Interface && !opts.AllowMapStringInterface {
-				return fmt.Errorf("safedeserialize: struct field %s.%s contains map with interface{} values", t.Name(), field.Name)
+				return fmt.Errorf("safedeserialize: struct field %s.%s contains map with any values", t.Name(), field.Name)
 			}
 		case reflect.Slice:
 			elemType := fieldType.Elem()
-			for elemType.Kind() == reflect.Ptr {
+			for elemType.Kind() == reflect.Pointer {
 				elemType = elemType.Elem()
 			}
 			if elemType.Kind() == reflect.Interface && !opts.AllowSliceInterface {
-				return fmt.Errorf("safedeserialize: struct field %s.%s is []interface{} type", t.Name(), field.Name)
+				return fmt.Errorf("safedeserialize: struct field %s.%s is []any type", t.Name(), field.Name)
 			}
 		case reflect.Struct:
 			if err := validateStructFields(fieldType, opts, visited); err != nil {
@@ -537,12 +558,12 @@ func NewTypeRegistry() *TypeRegistry {
 
 // Register adds a type to the registry
 // Pass a zero value or pointer: registry.Register(User{}) or registry.Register(&User{})
-func (r *TypeRegistry) Register(v interface{}) *TypeRegistry {
+func (r *TypeRegistry) Register(v any) *TypeRegistry {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
 	t := reflect.TypeOf(v)
-	if t.Kind() == reflect.Ptr {
+	if t.Kind() == reflect.Pointer {
 		t = t.Elem()
 	}
 	r.types[t.String()] = t
@@ -550,7 +571,7 @@ func (r *TypeRegistry) Register(v interface{}) *TypeRegistry {
 }
 
 // RegisterMultiple adds multiple types to the registry
-func (r *TypeRegistry) RegisterMultiple(values ...interface{}) *TypeRegistry {
+func (r *TypeRegistry) RegisterMultiple(values ...any) *TypeRegistry {
 	for _, v := range values {
 		r.Register(v)
 	}
@@ -558,12 +579,12 @@ func (r *TypeRegistry) RegisterMultiple(values ...interface{}) *TypeRegistry {
 }
 
 // IsRegistered checks if a type is in the registry
-func (r *TypeRegistry) IsRegistered(v interface{}) bool {
+func (r *TypeRegistry) IsRegistered(v any) bool {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
 	t := reflect.TypeOf(v)
-	if t.Kind() == reflect.Ptr {
+	if t.Kind() == reflect.Pointer {
 		t = t.Elem()
 	}
 	_, ok := r.types[t.String()]
@@ -602,41 +623,41 @@ func NewDecoder(opts ...Option) *Decoder {
 }
 
 // JSON decodes JSON data
-func (d *Decoder) JSON(data []byte, v interface{}) error {
+func (d *Decoder) JSON(data []byte, v any) error {
 	return jsonUnmarshal(data, v, d.opts)
 }
 
 // JSONReader decodes JSON from a reader
-func (d *Decoder) JSONReader(r io.Reader, v interface{}) error {
+func (d *Decoder) JSONReader(r io.Reader, v any) error {
 	return jsonDecode(r, v, d.opts)
 }
 
 // YAML decodes YAML data
-func (d *Decoder) YAML(data []byte, v interface{}) error {
+func (d *Decoder) YAML(data []byte, v any) error {
 	return yamlUnmarshal(data, v, d.opts)
 }
 
 // YAMLReader decodes YAML from a reader
-func (d *Decoder) YAMLReader(r io.Reader, v interface{}) error {
+func (d *Decoder) YAMLReader(r io.Reader, v any) error {
 	return yamlDecode(r, v, d.opts)
 }
 
 // XML decodes XML data
-func (d *Decoder) XML(data []byte, v interface{}) error {
+func (d *Decoder) XML(data []byte, v any) error {
 	return xmlUnmarshal(data, v, d.opts)
 }
 
 // XMLReader decodes XML from a reader
-func (d *Decoder) XMLReader(r io.Reader, v interface{}) error {
+func (d *Decoder) XMLReader(r io.Reader, v any) error {
 	return xmlDecode(r, v, d.opts)
 }
 
 // Gob decodes Gob data
-func (d *Decoder) Gob(data []byte, v interface{}) error {
+func (d *Decoder) Gob(data []byte, v any) error {
 	return gobDecode(bytes.NewReader(data), v, d.opts)
 }
 
 // GobReader decodes Gob from a reader
-func (d *Decoder) GobReader(r io.Reader, v interface{}) error {
+func (d *Decoder) GobReader(r io.Reader, v any) error {
 	return gobDecode(r, v, d.opts)
 }

@@ -286,11 +286,15 @@ features:
 `)
 
 	tmpFile := "/tmp/test_config.yaml"
-	if err := os.WriteFile(tmpFile, configContent, 0644); err != nil {
+	if err := os.WriteFile(tmpFile, configContent, 0600); err != nil {
 		log.Printf("Failed to write temp file: %v", err)
 		return
 	}
-	defer os.Remove(tmpFile)
+	defer func() {
+		if err := os.Remove(tmpFile); err != nil {
+			log.Printf("Failed to remove temp file: %v", err)
+		}
+	}()
 
 	// Load and parse the config
 	data, err := os.ReadFile(tmpFile)
