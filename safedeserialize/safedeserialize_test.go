@@ -279,7 +279,9 @@ func TestDecoder(t *testing.T) {
 
 	t.Run("Gob", func(t *testing.T) {
 		var buf bytes.Buffer
-		gob.NewEncoder(&buf).Encode(&SimpleUser{ID: 1})
+		if err := gob.NewEncoder(&buf).Encode(&SimpleUser{ID: 1}); err != nil {
+			t.Fatal(err)
+		}
 		if err := decoder.Gob(buf.Bytes(), &SimpleUser{}); err != nil {
 			t.Error(err)
 		}
@@ -287,7 +289,9 @@ func TestDecoder(t *testing.T) {
 
 	t.Run("GobReader", func(t *testing.T) {
 		var buf bytes.Buffer
-		gob.NewEncoder(&buf).Encode(&SimpleUser{ID: 1})
+		if err := gob.NewEncoder(&buf).Encode(&SimpleUser{ID: 1}); err != nil {
+			t.Fatal(err)
+		}
 		if err := decoder.GobReader(&buf, &SimpleUser{}); err != nil {
 			t.Error(err)
 		}
