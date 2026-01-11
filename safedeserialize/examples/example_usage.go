@@ -199,10 +199,9 @@ func example6HTTPHandler() {
 		}
 
 		// Process request...
-		// Log using structured format to prevent log injection
-		// Note: In production, use a structured logging library like zap or zerolog
-		log.Printf("Request received - UserID: %d, Action length: %d bytes",
-			req.Payload.UserID, len(req.Action))
+		// In production, use a structured logging library (zap/zerolog) to safely log user data
+		// For this example, we acknowledge the request without logging user-controlled data
+		log.Println("Request processed successfully")
 		w.WriteHeader(http.StatusOK)
 	}
 
