@@ -15,6 +15,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/ravisastryk/go-safeinput/safedeserialize"
 )
@@ -199,7 +200,9 @@ func example6HTTPHandler() {
 		}
 
 		// Process request...
-		fmt.Printf("Action: %s, UserID: %d\n", req.Action, req.Payload.UserID)
+		// Sanitize user input before logging to prevent log injection
+		action := strings.ReplaceAll(strings.ReplaceAll(req.Action, "\n", ""), "\r", "")
+		fmt.Printf("Action: %q, UserID: %d\n", action, req.Payload.UserID)
 		w.WriteHeader(http.StatusOK)
 	}
 
