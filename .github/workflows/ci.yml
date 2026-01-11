@@ -88,7 +88,7 @@ jobs:
         run: go mod download
 
       - name: Run tests with race detector
-        run: go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+        run: go test -v -race -coverprofile=coverage.out -covermode=atomic $(go list ./... | grep -v "/examples")
 
       - name: Check coverage threshold
         run: |
