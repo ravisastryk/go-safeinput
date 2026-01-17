@@ -6,6 +6,9 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/ravisastryk/go-safeinput.svg)](https://pkg.go.dev/github.com/ravisastryk/go-safeinput)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+![CWE-502 Instances](https://img.shields.io/badge/CWE--502_vulnerable-169392-red)
+![Stars Affected](https://img.shields.io/badge/stars_affected-0-blue)
+
 Universal input sanitization library for Go applications with **MITRE CWE Top 25** coverage. Zero external dependencies, production-ready, and easy to integrate.
 
 ## Table of Contents
