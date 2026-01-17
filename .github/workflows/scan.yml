@@ -78,10 +78,22 @@ jobs:
         run: |
           latest=$(ls -t metrics/scan_*.json | head -1)
           count=$(jq '.total_vulnerable' $latest)
-          
-          # Update badge in README if it exists
-          if grep -q "vulnerable--" README.md 2>/dev/null; then
-            sed -i "s/vulnerable--[0-9]*/vulnerable--$count/" README.md
+          stars=$(jq '.total_stars' $latest)
+
+          # Create badge URLs
+          VULNERABLE_BADGE="![CWE-502 Instances](https://img.shields.io/badge/CWE--502_vulnerable-${count}-red)"
+          STARS_BADGE="![Stars Affected](https://img.shields.io/badge/stars_affected-${stars}-blue)"
+
+          # Check if badges exist and update or add them
+          if grep -q "CWE-502 Instances" README.md; then
+            # Update existing badges
+            sed -i "s|!\[CWE-502 Instances\](https://img.shields.io/badge/CWE--502_vulnerable-[0-9]*-red)|${VULNERABLE_BADGE}|" README.md
+            sed -i "s|!\[Stars Affected\](https://img.shields.io/badge/stars_affected-[0-9]*-blue)|${STARS_BADGE}|" README.md
+          else
+            # Add badges after the License badge
+            awk -v vbadge="$VULNERABLE_BADGE" -v sbadge="$STARS_BADGE" \
+              '/License: MIT/ {print; print ""; print vbadge; print sbadge; next} {print}' \
+              README.md > README.md.tmp && mv README.md.tmp README.md
           fi
 
       - name: Commit Results
