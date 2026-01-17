@@ -25,7 +25,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          go run ./cmd/scanner -output metrics/scan_$(date +%Y%m%d).json
+          cd cmd/scanner
+          go run . -output ../../metrics/scan_$(date +%Y%m%d).json
 
       - name: Generate Report
         run: |
