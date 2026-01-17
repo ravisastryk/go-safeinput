@@ -11,9 +11,9 @@
 ### 🔴 CWE-502 Deserialization Vulnerability Impact
 
 ![CWE-502 Instances](https://img.shields.io/badge/CWE--502_vulnerable-169392-critical?style=for-the-badge)
-![Stars Affected](https://img.shields.io/badge/stars_affected-0-blue?style=for-the-badge)
+![Stars Affected](https://img.shields.io/badge/stars_affected-27125-blue?style=for-the-badge)
 
-**169,392 vulnerable code instances** found across the Go ecosystem (updated weekly)
+**169392 vulnerable code instances** found across the Go ecosystem (updated weekly)
 
 ---
 
