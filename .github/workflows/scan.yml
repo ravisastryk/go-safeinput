@@ -5,13 +5,20 @@ on:
     - cron: '0 0 * * 0'  # Every Sunday at midnight
   workflow_dispatch:  # Manual trigger
 
+permissions:
+  contents: write
+
 jobs:
   scan:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -81,7 +88,25 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create a new branch for the metrics update
+          BRANCH_NAME="metrics-update-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH_NAME"
+
           git add metrics/
           git add README.md || true
-          git diff --staged --quiet || git commit -m "Update impact metrics $(date +%Y-%m-%d)"
-          git push
+
+          # Only commit and push if there are changes
+          if ! git diff --staged --quiet; then
+            git commit -m "Update impact metrics $(date +%Y-%m-%d)"
+            git push origin "$BRANCH_NAME"
+
+            # Create a pull request
+            gh pr create \
+              --title "Update CWE-502 Impact Metrics - $(date +%Y-%m-%d)" \
+              --body "Automated weekly scan results showing CWE-502 vulnerability impact across the Go ecosystem." \
+              --base main \
+              --head "$BRANCH_NAME" || echo "PR already exists or couldn't be created"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
