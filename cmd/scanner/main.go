@@ -236,15 +236,80 @@ func searchGitHub(client *http.Client, token string, pattern Pattern) (PatternRe
 
 	result.Count = searchResult.TotalCount
 
+	// Track unique repos to avoid duplicate API calls
+	seenRepos := make(map[string]bool)
+
 	for _, item := range searchResult.Items {
+		repoName := item.Repository.FullName
+
+		// Skip if we already have this repo
+		if seenRepos[repoName] {
+			continue
+		}
+		seenRepos[repoName] = true
+
+		// Get accurate star/fork counts from repo API
+		stars := item.Repository.StargazersCount
+		forks := item.Repository.ForksCount
+
+		// If Code Search API didn't return counts, fetch from repo API
+		if stars == 0 && forks == 0 {
+			repoData, err := fetchRepoDetails(client, token, repoName)
+			if err == nil {
+				stars = repoData.StargazersCount
+				forks = repoData.ForksCount
+			}
+		}
+
 		result.TopRepos = append(result.TopRepos, Repo{
-			Name:  item.Repository.FullName,
-			Stars: item.Repository.StargazersCount,
-			Forks: item.Repository.ForksCount,
+			Name:  repoName,
+			Stars: stars,
+			Forks: forks,
 			URL:   item.Repository.HTMLURL,
 			File:  item.Path,
 		})
 	}
 
 	return result, nil
+}
+
+// RepoDetails holds repository metadata
+type RepoDetails struct {
+	StargazersCount int `json:"stargazers_count"`
+	ForksCount      int `json:"forks_count"`
+}
+
+// fetchRepoDetails gets accurate repository metadata
+func fetchRepoDetails(client *http.Client, token, repoName string) (*RepoDetails, error) {
+	repoURL := fmt.Sprintf("%s/repos/%s", githubAPI, repoName)
+
+	req, err := http.NewRequestWithContext(context.Background(), "GET", repoURL, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", "token "+token)
+	req.Header.Set("Accept", "application/vnd.github.v3+json")
+	req.Header.Set("User-Agent", userAgent)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to close response body: %v\n", closeErr)
+		}
+	}()
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("API error %d", resp.StatusCode)
+	}
+
+	var repoDetails RepoDetails
+	if err := json.NewDecoder(resp.Body).Decode(&repoDetails); err != nil {
+		return nil, err
+	}
+
+	return &repoDetails, nil
 }
