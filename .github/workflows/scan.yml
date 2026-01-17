@@ -101,8 +101,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Create a new branch for the metrics update
-          BRANCH_NAME="metrics-update-$(date +%Y%m%d)"
+          # Create a unique branch name with timestamp
+          BRANCH_NAME="metrics-update-$(date +%Y%m%d-%H%M%S)"
+
+          # Delete remote branch if it exists (cleanup from previous runs)
+          git push origin --delete "metrics-update-$(date +%Y%m%d)" 2>/dev/null || true
+
           git checkout -b "$BRANCH_NAME"
 
           git add metrics/
