@@ -1,0 +1,86 @@
+name: Weekly Impact Scan
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday at midnight
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Create metrics directory
+        run: mkdir -p metrics
+
+      - name: Run Scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          go run ./cmd/scanner -output metrics/scan_$(date +%Y%m%d).json
+
+      - name: Generate Report
+        run: |
+          latest=$(ls -t metrics/scan_*.json | head -1)
+          
+          cat > metrics/REPORT.md << EOF
+          # CWE-502 Vulnerability Impact Report
+          
+          **Generated:** $(date -u +"%Y-%m-%d %H:%M UTC")
+          **Scanner:** [go-safeinput](https://github.com/ravisastryk/go-safeinput)
+          
+          ## Summary
+          
+          | Metric | Value |
+          |--------|-------|
+          | Vulnerable Code Instances | $(jq '.total_vulnerable' $latest) |
+          | Total Stars Affected | $(jq '.total_stars' $latest) |
+          | Total Forks Affected | $(jq '.total_forks' $latest) |
+          
+          ## Patterns Detected
+          
+          | Pattern | Count | Severity |
+          |---------|-------|----------|
+          $(jq -r '.results[] | "| \(.pattern.name) | \(.count) | \(.pattern.severity) |"' $latest)
+          
+          ## Fix with go-safeinput
+          
+          \`\`\`go
+          import "github.com/ravisastryk/go-safeinput/safedeserialize"
+          
+          var user User
+          err := safedeserialize.JSON(data, &user)
+          \`\`\`
+          
+          ## Links
+          
+          - [CWE-502](https://cwe.mitre.org/data/definitions/502.html)
+          - [Semgrep Rule](https://github.com/semgrep/semgrep-rules)
+          EOF
+
+      - name: Update README badge
+        run: |
+          latest=$(ls -t metrics/scan_*.json | head -1)
+          count=$(jq '.total_vulnerable' $latest)
+          
+          # Update badge in README if it exists
+          if grep -q "vulnerable--" README.md 2>/dev/null; then
+            sed -i "s/vulnerable--[0-9]*/vulnerable--$count/" README.md
+          fi
+
+      - name: Commit Results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add metrics/
+          git add README.md || true
+          git diff --staged --quiet || git commit -m "Update impact metrics $(date +%Y-%m-%d)"
+          git push
