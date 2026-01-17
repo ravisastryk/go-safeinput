@@ -80,15 +80,20 @@ jobs:
           count=$(jq '.total_vulnerable' $latest)
           stars=$(jq '.total_stars' $latest)
 
-          # Create badge URLs
-          VULNERABLE_BADGE="![CWE-502 Instances](https://img.shields.io/badge/CWE--502_vulnerable-${count}-red)"
-          STARS_BADGE="![Stars Affected](https://img.shields.io/badge/stars_affected-${stars}-blue)"
+          # Create badge URLs with prominent styling
+          VULNERABLE_BADGE="![CWE-502 Instances](https://img.shields.io/badge/CWE--502_vulnerable-${count}-critical?style=for-the-badge)"
+          STARS_BADGE="![Stars Affected](https://img.shields.io/badge/stars_affected-${stars}-blue?style=for-the-badge)"
 
-          # Check if badges exist and update or add them
+          # Format numbers with commas for readability
+          formatted_count=$(printf "%'d" $count)
+
+          # Check if badges exist and update them
           if grep -q "CWE-502 Instances" README.md; then
             # Update existing badges
-            sed -i "s|!\[CWE-502 Instances\](https://img.shields.io/badge/CWE--502_vulnerable-[0-9]*-red)|${VULNERABLE_BADGE}|" README.md
-            sed -i "s|!\[Stars Affected\](https://img.shields.io/badge/stars_affected-[0-9]*-blue)|${STARS_BADGE}|" README.md
+            sed -i "s|!\[CWE-502 Instances\](https://img.shields.io/badge/CWE--502_vulnerable-[0-9]*-[a-z?=&-]*)|${VULNERABLE_BADGE}|" README.md
+            sed -i "s|!\[Stars Affected\](https://img.shields.io/badge/stars_affected-[0-9]*-[a-z?=&-]*)|${STARS_BADGE}|" README.md
+            # Update the count text
+            sed -i "s|\*\*[0-9,]* vulnerable code instances\*\*|**${formatted_count} vulnerable code instances**|" README.md
           else
             # Add badges after the License badge
             awk -v vbadge="$VULNERABLE_BADGE" -v sbadge="$STARS_BADGE" \
