@@ -182,12 +182,19 @@ jobs:
           sed -i "s|total_vulnerable-[0-9]*-|total_vulnerable-${total_count}-|" README.md
           sed -i "s|stars_affected-[0-9]*-|stars_affected-${stars}-|" README.md
 
-      - name: Commit and Push to Main
+      - name: Commit Results
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Stage changes
+          # Create a unique branch name with timestamp
+          BRANCH_NAME="metrics-update-$(date +%Y%m%d-%H%M%S)"
+
+          # Delete remote branch if it exists (cleanup from previous runs)
+          git push origin --delete "metrics-update-$(date +%Y%m%d)" 2>/dev/null || true
+
+          git checkout -b "$BRANCH_NAME"
+
           git add metrics/
           git add README.md || true
 
@@ -197,16 +204,23 @@ jobs:
 
             - Updated vulnerability scan results
             - Refreshed CWE instance counts
-            - Updated README badges
+            - Updated README badges"
 
-            [skip ci]"
+            git push origin "$BRANCH_NAME"
 
-            # Push directly to main
-            git push origin main
+            # Create a pull request
+            gh pr create \
+              --title "Update Impact Metrics - $(date +%Y-%m-%d)" \
+              --body "Automated weekly scan results showing vulnerability impact across the Go ecosystem.
 
-            echo "Metrics updated and pushed to main"
-          else
-            echo " No changes to commit"
+            ## Summary
+            - Updated CWE-502, CWE-79, CWE-89, CWE-22, CWE-78 metrics
+            - Refreshed README badges with latest counts
+            - Generated comprehensive impact report
+
+            Please review the metrics changes before merging." \
+              --base main \
+              --head "$BRANCH_NAME" || echo "PR already exists or couldn't be created"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
