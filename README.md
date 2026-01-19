@@ -8,12 +8,19 @@
 
 ---
 
-### 🔴 CWE-502 Deserialization Vulnerability Impact
+### 🔴 Vulnerability Impact Analysis
 
-![CWE-502 Instances](https://img.shields.io/badge/CWE--502_vulnerable-169392-critical?style=for-the-badge)
-![Stars Affected](https://img.shields.io/badge/stars_affected-0-blue?style=for-the-badge)
+**MITRE CWE Top 25 coverage** — Real-time ecosystem scan (updated weekly)
 
-**169,392 vulnerable code instances** found across the Go ecosystem (updated weekly)
+| CWE | Vulnerability | Instances | Severity |
+|-----|--------------|-----------|----------|
+| ![CWE-502](https://img.shields.io/badge/CWE--502-169392-critical?style=flat-square) | Deserialization of Untrusted Data | **169,392** | 🔴 CRITICAL |
+| ![CWE-79](https://img.shields.io/badge/CWE--79-TBD-red?style=flat-square) | Cross-site Scripting (XSS) | **TBD** | 🟠 HIGH |
+| ![CWE-89](https://img.shields.io/badge/CWE--89-TBD-critical?style=flat-square) | SQL Injection | **TBD** | 🔴 CRITICAL |
+| ![CWE-22](https://img.shields.io/badge/CWE--22-TBD-red?style=flat-square) | Path Traversal | **TBD** | 🟠 HIGH |
+| ![CWE-78](https://img.shields.io/badge/CWE--78-TBD-critical?style=flat-square) | OS Command Injection | **TBD** | 🔴 CRITICAL |
+
+**Total Impact:** ![Total Vulnerable](https://img.shields.io/badge/total_vulnerable-169392-critical?style=for-the-badge) ![Stars Affected](https://img.shields.io/badge/stars_affected-0-blue?style=for-the-badge)
 
 ---
 

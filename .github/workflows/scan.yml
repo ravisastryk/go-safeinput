@@ -38,68 +38,149 @@ jobs:
       - name: Generate Report
         run: |
           latest=$(ls -t metrics/scan_*.json | head -1)
-          
+
+          # Calculate CWE-specific totals
+          cwe502=$(jq '[.results[] | select(.pattern.name | startswith("cwe502"))] | map(.count) | add // 0' $latest)
+          cwe79=$(jq '[.results[] | select(.pattern.name | startswith("cwe79"))] | map(.count) | add // 0' $latest)
+          cwe89=$(jq '[.results[] | select(.pattern.name | startswith("cwe89"))] | map(.count) | add // 0' $latest)
+          cwe22=$(jq '[.results[] | select(.pattern.name | startswith("cwe22"))] | map(.count) | add // 0' $latest)
+          cwe78=$(jq '[.results[] | select(.pattern.name | startswith("cwe78"))] | map(.count) | add // 0' $latest)
+
           cat > metrics/REPORT.md << EOF
-          # CWE-502 Vulnerability Impact Report
-          
+          # Go Ecosystem Vulnerability Impact Report
+
           **Generated:** $(date -u +"%Y-%m-%d %H:%M UTC")
           **Scanner:** [go-safeinput](https://github.com/ravisastryk/go-safeinput)
-          
-          ## Summary
-          
+          **Coverage:** MITRE CWE Top 25 vulnerabilities
+
+          ## Executive Summary
+
           | Metric | Value |
           |--------|-------|
-          | Vulnerable Code Instances | $(jq '.total_vulnerable' $latest) |
+          | **Total Vulnerable Instances** | **$(jq '.total_vulnerable' $latest)** |
           | Total Stars Affected | $(jq '.total_stars' $latest) |
           | Total Forks Affected | $(jq '.total_forks' $latest) |
-          
-          ## Patterns Detected
-          
-          | Pattern | Count | Severity |
-          |---------|-------|----------|
-          $(jq -r '.results[] | "| \(.pattern.name) | \(.count) | \(.pattern.severity) |"' $latest)
-          
+          | CWEs Analyzed | 5 |
+
+          ## Vulnerability Breakdown by CWE
+
+          | CWE | Vulnerability Type | Instances | Severity |
+          |-----|-------------------|-----------|----------|
+          | **CWE-502** | Deserialization of Untrusted Data | **${cwe502}** | CRITICAL |
+          | **CWE-79** | Cross-site Scripting (XSS) | **${cwe79}** | HIGH |
+          | **CWE-89** | SQL Injection | **${cwe89}** | CRITICAL |
+          | **CWE-22** | Path Traversal | **${cwe22}** | HIGH |
+          | **CWE-78** | OS Command Injection | **${cwe78}** | CRITICAL |
+
+          ## Detailed Pattern Analysis
+
+          ### CWE-502: Deserialization of Untrusted Data
+
+          $(jq -r '.results[] | select(.pattern.name | startswith("cwe502")) | "- **\(.pattern.description)**: \(.count) instances"' $latest)
+
+          ### CWE-79: Cross-site Scripting (XSS)
+
+          $(jq -r '.results[] | select(.pattern.name | startswith("cwe79")) | "- **\(.pattern.description)**: \(.count) instances"' $latest)
+
+          ### CWE-89: SQL Injection
+
+          $(jq -r '.results[] | select(.pattern.name | startswith("cwe89")) | "- **\(.pattern.description)**: \(.count) instances"' $latest)
+
+          ### CWE-22: Path Traversal
+
+          $(jq -r '.results[] | select(.pattern.name | startswith("cwe22")) | "- **\(.pattern.description)**: \(.count) instances"' $latest)
+
+          ### CWE-78: OS Command Injection
+
+          $(jq -r '.results[] | select(.pattern.name | startswith("cwe78")) | "- **\(.pattern.description)**: \(.count) instances"' $latest)
+
           ## Fix with go-safeinput
-          
+
+          ### CWE-502: Safe Deserialization
           \`\`\`go
           import "github.com/ravisastryk/go-safeinput/safedeserialize"
-          
+
           var user User
           err := safedeserialize.JSON(data, &user)
           \`\`\`
-          
-          ## Links
-          
-          - [CWE-502](https://cwe.mitre.org/data/definitions/502.html)
-          - [Semgrep Rule](https://github.com/semgrep/semgrep-rules)
+
+          ### CWE-79: HTML Sanitization
+          \`\`\`go
+          import "github.com/ravisastryk/go-safeinput/html"
+
+          safe := html.Sanitize(userInput, html.ContextBody)
+          \`\`\`
+
+          ### CWE-89: SQL Identifier Sanitization
+          \`\`\`go
+          import "github.com/ravisastryk/go-safeinput/sql"
+
+          safeID, err := sql.SanitizeIdentifier(userTable)
+          \`\`\`
+
+          ### CWE-22: Path Sanitization
+          \`\`\`go
+          import "github.com/ravisastryk/go-safeinput/path"
+
+          safePath, err := path.Sanitize(userPath)
+          \`\`\`
+
+          ### CWE-78: Shell Argument Sanitization
+          \`\`\`go
+          import "github.com/ravisastryk/go-safeinput"
+
+          safeArg, err := safeinput.Sanitize(userArg, safeinput.ContextShellArg)
+          \`\`\`
+
+          ## MITRE CWE References
+
+          - [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
+          - [CWE-79: Cross-site Scripting](https://cwe.mitre.org/data/definitions/79.html)
+          - [CWE-89: SQL Injection](https://cwe.mitre.org/data/definitions/89.html)
+          - [CWE-22: Path Traversal](https://cwe.mitre.org/data/definitions/22.html)
+          - [CWE-78: OS Command Injection](https://cwe.mitre.org/data/definitions/78.html)
           EOF
 
-      - name: Update README badge
+      - name: Update README badges
         run: |
           latest=$(ls -t metrics/scan_*.json | head -1)
-          count=$(jq '.total_vulnerable' $latest)
+
+          # Calculate totals
+          total_count=$(jq '.total_vulnerable' $latest)
           stars=$(jq '.total_stars' $latest)
 
-          # Create badge URLs with prominent styling
-          VULNERABLE_BADGE="![CWE-502 Instances](https://img.shields.io/badge/CWE--502_vulnerable-${count}-critical?style=for-the-badge)"
-          STARS_BADGE="![Stars Affected](https://img.shields.io/badge/stars_affected-${stars}-blue?style=for-the-badge)"
+          # Calculate CWE-specific totals
+          cwe502=$(jq '[.results[] | select(.pattern.name | startswith("cwe502"))] | map(.count) | add // 0' $latest)
+          cwe79=$(jq '[.results[] | select(.pattern.name | startswith("cwe79"))] | map(.count) | add // 0' $latest)
+          cwe89=$(jq '[.results[] | select(.pattern.name | startswith("cwe89"))] | map(.count) | add // 0' $latest)
+          cwe22=$(jq '[.results[] | select(.pattern.name | startswith("cwe22"))] | map(.count) | add // 0' $latest)
+          cwe78=$(jq '[.results[] | select(.pattern.name | startswith("cwe78"))] | map(.count) | add // 0' $latest)
 
-          # Format numbers with commas for readability
-          formatted_count=$(printf "%'d" $count)
+          # Format numbers with commas
+          formatted_total=$(printf "%'d" $total_count)
+          formatted_502=$(printf "%'d" $cwe502)
+          formatted_79=$(printf "%'d" $cwe79)
+          formatted_89=$(printf "%'d" $cwe89)
+          formatted_22=$(printf "%'d" $cwe22)
+          formatted_78=$(printf "%'d" $cwe78)
 
-          # Check if badges exist and update them
-          if grep -q "CWE-502 Instances" README.md; then
-            # Update existing badges
-            sed -i "s|!\[CWE-502 Instances\](https://img.shields.io/badge/CWE--502_vulnerable-[0-9]*-[a-z?=&-]*)|${VULNERABLE_BADGE}|" README.md
-            sed -i "s|!\[Stars Affected\](https://img.shields.io/badge/stars_affected-[0-9]*-[a-z?=&-]*)|${STARS_BADGE}|" README.md
-            # Update the count text
-            sed -i "s|\*\*[0-9,]* vulnerable code instances\*\*|**${formatted_count} vulnerable code instances**|" README.md
-          else
-            # Add badges after the License badge
-            awk -v vbadge="$VULNERABLE_BADGE" -v sbadge="$STARS_BADGE" \
-              '/License: MIT/ {print; print ""; print vbadge; print sbadge; next} {print}' \
-              README.md > README.md.tmp && mv README.md.tmp README.md
-          fi
+          # Update individual CWE badges in table
+          sed -i "s|CWE--502-[0-9]*-|CWE--502-${cwe502}-|" README.md
+          sed -i "s|CWE--79-[A-Z0-9]*-|CWE--79-${cwe79}-|" README.md
+          sed -i "s|CWE--89-[A-Z0-9]*-|CWE--89-${cwe89}-|" README.md
+          sed -i "s|CWE--22-[A-Z0-9]*-|CWE--22-${cwe22}-|" README.md
+          sed -i "s|CWE--78-[A-Z0-9]*-|CWE--78-${cwe78}-|" README.md
+
+          # Update instance counts in table
+          sed -i "s|\*\*169,392\*\*|**${formatted_502}**|" README.md
+          sed -i "s/| \*\*TBD\*\* | 🟠 HIGH |/| **${formatted_79}** | 🟠 HIGH |/" README.md
+          sed -i "0,/| \*\*TBD\*\* | 🔴 CRITICAL |/s//| **${formatted_89}** | 🔴 CRITICAL |/" README.md
+          sed -i "0,/| \*\*TBD\*\* | 🟠 HIGH |/s//| **${formatted_22}** | 🟠 HIGH |/" README.md
+          sed -i "0,/| \*\*TBD\*\* | 🔴 CRITICAL |/s//| **${formatted_78}** | 🔴 CRITICAL |/" README.md
+
+          # Update total badges
+          sed -i "s|total_vulnerable-[0-9]*-|total_vulnerable-${total_count}-|" README.md
+          sed -i "s|stars_affected-[0-9]*-|stars_affected-${stars}-|" README.md
 
       - name: Commit Results
         run: |
