@@ -77,35 +77,116 @@ type Report struct {
 }
 
 var patterns = []Pattern{
+	// CWE-502: Deserialization of Untrusted Data
 	{
-		Name:        "json-unmarshal-interface",
+		Name:        "cwe502-json-unmarshal-interface",
 		Query:       `language:go "json.Unmarshal" "interface{}"`,
-		Severity:    "HIGH",
-		Description: "JSON deserialization into interface{}",
+		Severity:    "CRITICAL",
+		Description: "CWE-502: JSON deserialization into interface{}",
 	},
 	{
-		Name:        "yaml-unmarshal-interface",
+		Name:        "cwe502-yaml-unmarshal-interface",
 		Query:       `language:go "yaml.Unmarshal" "interface{}"`,
-		Severity:    "HIGH",
-		Description: "YAML deserialization into interface{}",
+		Severity:    "CRITICAL",
+		Description: "CWE-502: YAML deserialization into interface{}",
 	},
 	{
-		Name:        "json-decoder-interface",
+		Name:        "cwe502-json-decoder-interface",
 		Query:       `language:go "json.NewDecoder" "interface{}"`,
-		Severity:    "HIGH",
-		Description: "JSON decoder into interface{}",
+		Severity:    "CRITICAL",
+		Description: "CWE-502: JSON decoder into interface{}",
 	},
 	{
-		Name:        "xml-unmarshal-interface",
+		Name:        "cwe502-xml-unmarshal-interface",
 		Query:       `language:go "xml.Unmarshal" "interface{}"`,
-		Severity:    "HIGH",
-		Description: "XML deserialization into interface{}",
+		Severity:    "CRITICAL",
+		Description: "CWE-502: XML deserialization into interface{}",
 	},
 	{
-		Name:        "yaml-v2-import",
+		Name:        "cwe502-yaml-v2-import",
 		Query:       `language:go "gopkg.in/yaml.v2"`,
-		Severity:    "MEDIUM",
-		Description: "Using yaml.v2 (vulnerable to custom tags)",
+		Severity:    "HIGH",
+		Description: "CWE-502: Using yaml.v2 (vulnerable to custom tags)",
+	},
+
+	// CWE-79: Cross-site Scripting (XSS)
+	{
+		Name:        "cwe79-html-template-unescaped",
+		Query:       `language:go "html/template" HTML`,
+		Severity:    "HIGH",
+		Description: "CWE-79: Potential XSS via HTML template rendering",
+	},
+	{
+		Name:        "cwe79-writer-write-user-input",
+		Query:       `language:go "fmt.Fprintf" "w http.ResponseWriter"`,
+		Severity:    "HIGH",
+		Description: "CWE-79: Direct write to ResponseWriter (potential XSS)",
+	},
+	{
+		Name:        "cwe79-template-js",
+		Query:       `language:go template.JS`,
+		Severity:    "HIGH",
+		Description: "CWE-79: Using template.JS (bypasses escaping)",
+	},
+
+	// CWE-89: SQL Injection
+	{
+		Name:        "cwe89-sql-query-concat",
+		Query:       `language:go "db.Query" "fmt.Sprintf"`,
+		Severity:    "CRITICAL",
+		Description: "CWE-89: SQL query with string concatenation",
+	},
+	{
+		Name:        "cwe89-sql-exec-concat",
+		Query:       `language:go "db.Exec" "+" `,
+		Severity:    "CRITICAL",
+		Description: "CWE-89: SQL exec with string concatenation",
+	},
+	{
+		Name:        "cwe89-raw-sql-interpolation",
+		Query:       `language:go "database/sql" fmt.Sprintf SELECT`,
+		Severity:    "CRITICAL",
+		Description: "CWE-89: Raw SQL with string interpolation",
+	},
+
+	// CWE-22: Path Traversal
+	{
+		Name:        "cwe22-filepath-join-user-input",
+		Query:       `language:go "filepath.Join" "r.URL.Query"`,
+		Severity:    "HIGH",
+		Description: "CWE-22: filepath.Join with user input",
+	},
+	{
+		Name:        "cwe22-os-open-user-input",
+		Query:       `language:go "os.Open" "r.FormValue"`,
+		Severity:    "HIGH",
+		Description: "CWE-22: os.Open with user-controlled path",
+	},
+	{
+		Name:        "cwe22-ioutil-readfile-param",
+		Query:       `language:go "ioutil.ReadFile" "filepath.Join"`,
+		Severity:    "HIGH",
+		Description: "CWE-22: File read with constructed path",
+	},
+
+	// CWE-78: OS Command Injection
+	{
+		Name:        "cwe78-exec-command-user-input",
+		Query:       `language:go "exec.Command" "r.FormValue"`,
+		Severity:    "CRITICAL",
+		Description: "CWE-78: exec.Command with user input",
+	},
+	{
+		Name:        "cwe78-exec-command-concat",
+		Query:       `language:go "exec.Command" "fmt.Sprintf"`,
+		Severity:    "CRITICAL",
+		Description: "CWE-78: exec.Command with string formatting",
+	},
+	{
+		Name:        "cwe78-shell-exec",
+		Query:       `language:go exec.Command "sh" "-c"`,
+		Severity:    "CRITICAL",
+		Description: "CWE-78: Shell command execution",
 	},
 }
 
