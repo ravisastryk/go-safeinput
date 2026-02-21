@@ -138,6 +138,13 @@ jobs:
         with:
           args: '-fmt sarif -out gosec-results.sarif ./...'
 
+      - name: Fix SARIF relationships format
+        if: always()
+        run: |
+          jq '(.runs[].tool.driver.rules[] | select(has("relationships")).relationships) |= map(select(type == "object"))' \
+            gosec-results.sarif > gosec-results-fixed.sarif
+          mv gosec-results-fixed.sarif gosec-results.sarif
+
       - name: Upload Gosec SARIF
         uses: github/codeql-action/upload-sarif@v4
         if: always()
