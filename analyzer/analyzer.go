@@ -68,84 +68,98 @@ func (a *Analyzer) AnalyzeFile(filename string, src []byte) ([]Finding, error) {
 		return nil, fmt.Errorf("parse: %w", err)
 	}
 
-	hasSanitizer := false
-	for _, imp := range file.Imports {
-		if imp.Path != nil && strings.Contains(imp.Path.Value, a.SanitizerPkg) {
-			hasSanitizer = true
-			break
-		}
-	}
+	hasSanitizer := hasSanitizerImport(file, a.SanitizerPkg)
 
 	var findings []Finding
-
 	ast.Inspect(file, func(n ast.Node) bool {
 		fn, ok := n.(*ast.FuncDecl)
 		if !ok || fn.Body == nil || !isHTTPHandler(fn) {
 			return true
 		}
-
-		// Pass 1: detect unsanitized input sources (CWE-79/89/502/20).
-		var foundUserInput bool
-		ast.Inspect(fn.Body, func(inner ast.Node) bool {
-			call, ok := inner.(*ast.CallExpr)
-			if !ok {
-				return true
-			}
-			callName := exprString(call.Fun)
-			for _, source := range a.InputSources {
-				if strings.Contains(callName, source) {
-					foundUserInput = true
-					if !hasSanitizer || !bodyContainsSanitizer(fn.Body, fset, src) {
-						pos := fset.Position(call.Pos())
-						findings = append(findings, Finding{
-							File:       filename,
-							Line:       pos.Line,
-							Function:   fn.Name.Name,
-							InputExpr:  callName,
-							CWE:        cweFor(source),
-							Severity:   "HIGH",
-							Confidence: 0.90,
-							Suggestion: fmt.Sprintf("Sanitize %s with go-safeinput before use", callName),
-							FixCode:    fixFor(callName, source),
-						})
-					}
-				}
-			}
-			return true
-		})
-
-		// Pass 2: detect missing HTML output encoding (CWE-116).
-		// Fires when a sanitizer IS used (so CWE-79/89 won't duplicate),
-		// user input was read, the handler writes to the HTTP response, and
-		// no HTML output encoding (html.EscapeString / HTMLBody) is applied.
-		// This matches gosec G705 and CodeQL go/reflected-xss findings for
-		// handlers that sanitize for a non-HTML context (SQL, FilePath, etc.)
-		// but write the result directly to the response.
-		if foundUserInput &&
-			hasSanitizer && bodyContainsSanitizer(fn.Body, fset, src) &&
-			bodyWritesToResponse(fn.Body, fset, src) &&
-			!bodyHasHTMLEncoding(fn.Body, fset, src) {
-			if writeLine := findResponseWriteLine(fn.Body, fset); writeLine > 0 {
-				findings = append(findings, Finding{
-					File:       filename,
-					Line:       writeLine,
-					Function:   fn.Name.Name,
-					InputExpr:  "response write",
-					CWE:        CWEOutputEncoding,
-					Severity:   "MEDIUM",
-					Confidence: 0.75,
-					Suggestion: fmt.Sprintf(
-						"Apply html.EscapeString to user-derived values in %s before writing to the HTML response (defense-in-depth for output context)",
-						fn.Name.Name,
-					),
-					FixCode: fixForOutputEncoding(),
-				})
-			}
-		}
-
+		p1, foundUserInput := a.detectUnsanitizedInputs(fn, fset, src, filename, hasSanitizer)
+		findings = append(findings, p1...)
+		findings = append(findings, detectMissingOutputEncoding(fn, fset, src, filename, foundUserInput, hasSanitizer)...)
 		return true
 	})
 	return findings, nil
+}
+
+// hasSanitizerImport reports whether the file imports the sanitizer package.
+func hasSanitizerImport(file *ast.File, pkg string) bool {
+	for _, imp := range file.Imports {
+		if imp.Path != nil && strings.Contains(imp.Path.Value, pkg) {
+			return true
+		}
+	}
+	return false
+}
+
+// detectUnsanitizedInputs is Pass 1: flags input sources read without sanitization (CWE-79/89/502/20).
+// Returns the findings and whether any user input was read.
+func (a *Analyzer) detectUnsanitizedInputs(fn *ast.FuncDecl, fset *token.FileSet, src []byte, filename string, hasSanitizer bool) ([]Finding, bool) {
+	var findings []Finding
+	var foundUserInput bool
+	bodyHasSanitizer := hasSanitizer && bodyContainsSanitizer(fn.Body, fset, src)
+
+	ast.Inspect(fn.Body, func(inner ast.Node) bool {
+		call, ok := inner.(*ast.CallExpr)
+		if !ok {
+			return true
+		}
+		callName := exprString(call.Fun)
+		for _, source := range a.InputSources {
+			if strings.Contains(callName, source) {
+				foundUserInput = true
+				if !bodyHasSanitizer {
+					pos := fset.Position(call.Pos())
+					findings = append(findings, Finding{
+						File:       filename,
+						Line:       pos.Line,
+						Function:   fn.Name.Name,
+						InputExpr:  callName,
+						CWE:        cweFor(source),
+						Severity:   "HIGH",
+						Confidence: 0.90,
+						Suggestion: fmt.Sprintf("Sanitize %s with go-safeinput before use", callName),
+						FixCode:    fixFor(callName, source),
+					})
+				}
+			}
+		}
+		return true
+	})
+	return findings, foundUserInput
+}
+
+// detectMissingOutputEncoding is Pass 2: flags handlers that sanitize for a
+// non-HTML context (SQL, FilePath, etc.) but write to the HTTP response without
+// html.EscapeString or an equivalent HTML-safe context (CWE-116).
+// This matches gosec G705 and CodeQL go/reflected-xss.
+func detectMissingOutputEncoding(fn *ast.FuncDecl, fset *token.FileSet, src []byte, filename string, foundUserInput, hasSanitizer bool) []Finding {
+	if !foundUserInput || !hasSanitizer || !bodyContainsSanitizer(fn.Body, fset, src) {
+		return nil
+	}
+	if !bodyWritesToResponse(fn.Body, fset, src) || bodyHasHTMLEncoding(fn.Body, fset, src) {
+		return nil
+	}
+	writeLine := findResponseWriteLine(fn.Body, fset)
+	if writeLine == 0 {
+		return nil
+	}
+	return []Finding{{
+		File:       filename,
+		Line:       writeLine,
+		Function:   fn.Name.Name,
+		InputExpr:  "response write",
+		CWE:        CWEOutputEncoding,
+		Severity:   "MEDIUM",
+		Confidence: 0.75,
+		Suggestion: fmt.Sprintf(
+			"Apply html.EscapeString to user-derived values in %s before writing to the HTML response (defense-in-depth for output context)",
+			fn.Name.Name,
+		),
+		FixCode: fixForOutputEncoding(),
+	}}
 }
 
 // AnalyzeBytes is a convenience wrapper for inline source.

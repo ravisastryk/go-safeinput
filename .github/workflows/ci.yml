@@ -141,7 +141,7 @@ jobs:
       - name: Fix SARIF relationships format
         if: always()
         run: |
-          jq '.runs[].tool.driver.rules |= if type == "array" then map(if has("relationships") and (.relationships | type) == "array" then .relationships |= map(select(type == "object")) else . end) else . end' \
+          jq '.runs[].tool.driver.rules |= if type == "array" then map(if has("relationships") and (.relationships | type) == "array" then .relationships |= map(select(type == "object")) else . end) else [] end' \
             gosec-results.sarif > gosec-results-fixed.sarif
           mv gosec-results-fixed.sarif gosec-results.sarif
 
