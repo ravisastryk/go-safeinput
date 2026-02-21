@@ -264,7 +264,7 @@ func outputReport(report Report, outputFile string) error {
 	}
 
 	if outputFile != "" {
-		if err := os.WriteFile(outputFile, output, 0600); err != nil {
+		if err := os.WriteFile(outputFile, output, 0600); err != nil { // #nosec G703 -- path comes from CLI flag, not external input
 			return fmt.Errorf("writing file: %w", err)
 		}
 		fmt.Fprintf(os.Stderr, "Results saved to: %s\n", outputFile)
@@ -295,7 +295,7 @@ func searchGitHub(client *http.Client, token string, pattern Pattern) (PatternRe
 	req.Header.Set("Accept", "application/vnd.github.v3+json")
 	req.Header.Set("User-Agent", userAgent)
 
-	resp, err := client.Do(req)
+	resp, err := client.Do(req) // #nosec G704 -- URL is built from hardcoded GitHub API base, not from external input
 	if err != nil {
 		return result, err
 	}
@@ -373,7 +373,7 @@ func fetchRepoDetails(client *http.Client, token, repoName string) (*RepoDetails
 	req.Header.Set("Accept", "application/vnd.github.v3+json")
 	req.Header.Set("User-Agent", userAgent)
 
-	resp, err := client.Do(req)
+	resp, err := client.Do(req) // #nosec G704 -- URL is built from hardcoded GitHub API base, not from external input
 	if err != nil {
 		return nil, err
 	}
