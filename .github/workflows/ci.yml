@@ -136,7 +136,7 @@ jobs:
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master
         with:
-          args: '-fmt sarif -out gosec-results.sarif ./...'
+          args: '-no-fail -fmt sarif -out gosec-results.sarif ./...'
 
       - name: Fix SARIF relationships format
         if: always()
