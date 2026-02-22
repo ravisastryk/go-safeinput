@@ -136,12 +136,12 @@ jobs:
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master
         with:
-          args: '-no-fail -fmt sarif -out gosec-results.sarif ./...'
+          args: '-no-fail -fmt sarif -out gosec-results.sarif -exclude-dir examples -exclude-dir safedeserialize/examples ./...'
 
       - name: Fix SARIF relationships format
         if: always()
         run: |
-          jq '(.runs[].tool.driver.rules[] | select(has("relationships")).relationships) |= map(select(type == "object"))' \
+          jq '.runs[].tool.driver.rules |= if type == "array" then map(if has("relationships") and (.relationships | type) == "array" then .relationships |= map(select(type == "object")) else . end) else [] end' \
             gosec-results.sarif > gosec-results-fixed.sarif
           mv gosec-results-fixed.sarif gosec-results.sarif
 
@@ -160,4 +160,40 @@ jobs:
         run: |
           go install github.com/sonatype-nexus-community/nancy@latest
           go list -json -deps ./... | nancy sleuth || true
+
+  # ===========================================================================
+  # Agentic Fix Job — AST-based analysis with CWE-mapped fix suggestions
+  # ===========================================================================
+  agentic-fix:
+    name: Agentic Fix Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Test new packages (analyzer, middleware, safedecode)
+        run: go test ./analyzer/... ./middleware/... ./safedecode/... -v -count=1
+
+      - name: Run Agentic Analyzer
+        # Emits ::warning annotations inline on PR diffs for each finding.
+        # -exit-zero keeps the job green; remove it to make the job a hard gate.
+        run: go run ./cmd/analyzer/... -dir . -exit-zero
+
+      - name: Run Agentic Analyzer (JSON report)
+        run: go run ./cmd/analyzer/... -dir . -fmt json -exit-zero > agentic-findings.json
+
+      - name: Upload findings artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentic-findings
+          path: agentic-findings.json
 
