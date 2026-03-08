@@ -1,5 +1,5 @@
 module github.com/ravisastryk/go-safeinput
 
-go 1.23
+go 1.26.1
 
 require gopkg.in/yaml.v3 v3.0.1

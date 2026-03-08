@@ -14,6 +14,7 @@ import (
 // Context determines which sanitization strategy to apply.
 type Context int
 
+// Sanitization context constants used for middleware parameter routing.
 const (
 	HTMLBody      Context = iota // XSS prevention (default)
 	SQLIdentifier                // SQL injection prevention
@@ -83,7 +84,7 @@ func (s *SafeHTTP) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// ── Form values (POST/PUT/PATCH) ──
 	if r.Method == http.MethodPost || r.Method == http.MethodPut || r.Method == http.MethodPatch {
-		if err := r.ParseForm(); err == nil {
+		if err := r.ParseForm(); err == nil { //nolint:gosec // G120: body-size limiting is the caller's responsibility; middleware is a thin sanitization pass-through
 			for key, vals := range r.PostForm {
 				ctx := s.ctxFor(key)
 				for i, v := range vals {

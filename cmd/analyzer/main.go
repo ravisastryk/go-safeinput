@@ -44,7 +44,7 @@ func scan(dir string) ([]analyzer.Finding, error) {
 		if d.IsDir() || !strings.HasSuffix(path, ".go") || strings.HasSuffix(path, "_test.go") {
 			return nil
 		}
-		if src, readErr := os.ReadFile(path); readErr == nil { // #nosec G304 -- path comes from filepath.WalkDir, not external input
+		if src, readErr := os.ReadFile(path); readErr == nil { // #nosec G304 G122 -- path comes from filepath.WalkDir, not external input; no symlink TOCTOU risk in read-only walk
 			if findings, analyzeErr := a.AnalyzeFile(path, src); analyzeErr == nil {
 				allFindings = append(allFindings, findings...)
 			}

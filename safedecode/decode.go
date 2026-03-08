@@ -16,6 +16,7 @@ import (
 	"sync"
 )
 
+// Sentinel errors returned by Decoder.Decode.
 var (
 	ErrPayloadTooLarge = errors.New("safedecode: payload exceeds maximum allowed size")
 	ErrNestingTooDeep  = errors.New("safedecode: nesting exceeds maximum allowed depth")

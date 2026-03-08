@@ -1,26 +1,19 @@
-# golangci-lint configuration
+# golangci-lint v2 configuration
 # https://golangci-lint.run/usage/configuration/
+
+version: "2"
 
 run:
   timeout: 5m
-  tests: true
   modules-download-mode: readonly
 
-output:
-  print-issued-lines: true
-  print-linter-name: true
-  sort-results: true
-
 linters:
-  enable-all: false
   enable:
     # Default linters
     - errcheck
-    # - govet
     - ineffassign
     - staticcheck
-    - unused
-    
+
     # Additional linters
     - bodyclose
     - copyloopvar
@@ -44,54 +37,53 @@ linters:
     - unparam
     - whitespace
 
-linters-settings:
-  funlen:
-    lines: 100
-    statements: 50
+  settings:
+    funlen:
+      lines: 100
+      statements: 50
 
-  gocyclo:
-    min-complexity: 15
+    gocyclo:
+      min-complexity: 15
 
-  # govet:
-  #   enable-all: true
+    gosec:
+      severity: medium
+      confidence: medium
+      excludes:
+        - G104
+        - G304
 
-  gosec:
-    severity: medium
-    confidence: medium
-    excludes:
-      - G104
-      - G304
+    revive:
+      rules:
+        - name: blank-imports
+        - name: context-as-argument
+        - name: context-keys-type
+        - name: dot-imports
+        - name: error-return
+        - name: error-strings
+        - name: error-naming
+        - name: exported
+        - name: increment-decrement
+        - name: indent-error-flow
+        - name: package-comments
+        - name: range
+        - name: receiver-naming
+        - name: time-naming
+        - name: unexported-return
+        - name: var-declaration
+        - name: var-naming
 
-  revive:
+  exclusions:
+    paths:
+      - examples/ # demo code; before/ is intentionally vulnerable
     rules:
-      - name: blank-imports
-      - name: context-as-argument
-      - name: context-keys-type
-      - name: dot-imports
-      - name: error-return
-      - name: error-strings
-      - name: error-naming
-      - name: exported
-      - name: increment-decrement
-      - name: indent-error-flow
-      - name: package-comments
-      - name: range
-      - name: receiver-naming
-      - name: time-naming
-      - name: unexported-return
-      - name: var-declaration
-      - name: var-naming
-
-  stylecheck:
-    checks: ["all", "-ST1000", "-ST1003"]
+      - path: _test\.go
+        linters:
+          - dupl
+          - funlen
+          - gocyclo
+          - noctx  # httptest.NewRequest without context is acceptable in tests
+          - gosec  # test code doesn't require MaxBytesReader guards
 
 issues:
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - dupl
-        - funlen
-        - gocyclo
-
   max-issues-per-linter: 50
   max-same-issues: 10
