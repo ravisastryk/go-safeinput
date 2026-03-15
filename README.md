@@ -14,13 +14,13 @@
 
 | CWE | Vulnerability | Instances | Severity |
 |-----|--------------|-----------|----------|
-| ![CWE-502](https://img.shields.io/badge/CWE--502-174436-critical?style=flat-square) | Deserialization of Untrusted Data | **166240** | 🔴 CRITICAL |
-| ![CWE-79](https://img.shields.io/badge/CWE--79-48360-red?style=flat-square) | Cross-site Scripting (XSS) | **46156** | 🟠 HIGH |
-| ![CWE-89](https://img.shields.io/badge/CWE--89-52592-critical?style=flat-square) | SQL Injection | **54904** | 🔴 CRITICAL |
-| ![CWE-22](https://img.shields.io/badge/CWE--22-10584-red?style=flat-square) | Path Traversal | **46156** | 🟠 HIGH |
-| ![CWE-78](https://img.shields.io/badge/CWE--78-70884-critical?style=flat-square) | OS Command Injection | **69164** | 🔴 CRITICAL |
+| ![CWE-502](https://img.shields.io/badge/CWE--502-172836-critical?style=flat-square) | Deserialization of Untrusted Data | **166240** | 🔴 CRITICAL |
+| ![CWE-79](https://img.shields.io/badge/CWE--79-48040-red?style=flat-square) | Cross-site Scripting (XSS) | **46156** | 🟠 HIGH |
+| ![CWE-89](https://img.shields.io/badge/CWE--89-56256-critical?style=flat-square) | SQL Injection | **54904** | 🔴 CRITICAL |
+| ![CWE-22](https://img.shields.io/badge/CWE--22-13188-red?style=flat-square) | Path Traversal | **46156** | 🟠 HIGH |
+| ![CWE-78](https://img.shields.io/badge/CWE--78-72224-critical?style=flat-square) | OS Command Injection | **69164** | 🔴 CRITICAL |
 
-**Total Impact:** ![Total Vulnerable](https://img.shields.io/badge/total_vulnerable-356856-critical?style=for-the-badge) ![Stars Affected](https://img.shields.io/badge/stars_affected-154645-blue?style=for-the-badge)
+**Total Impact:** ![Total Vulnerable](https://img.shields.io/badge/total_vulnerable-362544-critical?style=for-the-badge) ![Stars Affected](https://img.shields.io/badge/stars_affected-136032-blue?style=for-the-badge)
 
 ---
 
