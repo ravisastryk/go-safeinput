@@ -91,7 +91,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-${{ matrix.go-version }}
           path: coverage.out
@@ -175,7 +175,7 @@ jobs:
         run: go run ./cmd/analyzer/... -dir . -fmt json -exit-zero > agentic-findings.json
 
       - name: Upload findings artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: agentic-findings
           path: agentic-findings.json
