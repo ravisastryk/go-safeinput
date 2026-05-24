@@ -1,0 +1,1404 @@
+{
+  "generated_at": "2026-05-24T00:52:30Z",
+  "scanner": "go-safeinput-scanner",
+  "scanner_repo": "https://github.com/ravisastryk/go-safeinput",
+  "total_vulnerable": 446732,
+  "total_stars": 297938,
+  "total_forks": 30205,
+  "results": [
+    {
+      "pattern": {
+        "name": "cwe502-json-unmarshal-interface",
+        "query": "language:go \"json.Unmarshal\" \"interface{}\"",
+        "severity": "CRITICAL",
+        "description": "CWE-502: JSON deserialization into interface{}"
+      },
+      "count": 147392,
+      "top_repos": [
+        {
+          "name": "zserge/lorca",
+          "stars": 8196,
+          "forks": 539,
+          "url": "https://github.com/zserge/lorca",
+          "file": "ui.go"
+        },
+        {
+          "name": "mattn/go-v8",
+          "stars": 267,
+          "forks": 37,
+          "url": "https://github.com/mattn/go-v8",
+          "file": "v8.go"
+        },
+        {
+          "name": "gocraft/work",
+          "stars": 2523,
+          "forks": 349,
+          "url": "https://github.com/gocraft/work",
+          "file": "job.go"
+        },
+        {
+          "name": "scipipe/scipipe",
+          "stars": 1113,
+          "forks": 73,
+          "url": "https://github.com/scipipe/scipipe",
+          "file": "ip.go"
+        },
+        {
+          "name": "keroserene/go-webrtc",
+          "stars": 456,
+          "forks": 69,
+          "url": "https://github.com/keroserene/go-webrtc",
+          "file": "ice.go"
+        },
+        {
+          "name": "manyminds/api2go",
+          "stars": 719,
+          "forks": 96,
+          "url": "https://github.com/manyminds/api2go",
+          "file": "api.go"
+        },
+        {
+          "name": "kintone-labs/go-kintone",
+          "stars": 17,
+          "forks": 21,
+          "url": "https://github.com/kintone-labs/go-kintone",
+          "file": "app.go"
+        },
+        {
+          "name": "mailgun/holster",
+          "stars": 297,
+          "forks": 32,
+          "url": "https://github.com/mailgun/holster",
+          "file": "election/rpc.go"
+        },
+        {
+          "name": "ardanlabs/kit",
+          "stars": 248,
+          "forks": 57,
+          "url": "https://github.com/ardanlabs/kit",
+          "file": "mapstructure/doc.go"
+        },
+        {
+          "name": "vsco/jsonconsul",
+          "stars": 23,
+          "forks": 5,
+          "url": "https://github.com/vsco/jsonconsul",
+          "file": "set.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:52:30Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe502-yaml-unmarshal-interface",
+        "query": "language:go \"yaml.Unmarshal\" \"interface{}\"",
+        "severity": "CRITICAL",
+        "description": "CWE-502: YAML deserialization into interface{}"
+      },
+      "count": 5932,
+      "top_repos": [
+        {
+          "name": "inguardians/peirates",
+          "stars": 1446,
+          "forks": 132,
+          "url": "https://github.com/inguardians/peirates",
+          "file": "config.go"
+        },
+        {
+          "name": "FalconForceTeam/FalconHound",
+          "stars": 821,
+          "forks": 59,
+          "url": "https://github.com/FalconForceTeam/FalconHound",
+          "file": "main.go"
+        },
+        {
+          "name": "vektra/tachyon",
+          "stars": 280,
+          "forks": 27,
+          "url": "https://github.com/vektra/tachyon",
+          "file": "util.go"
+        },
+        {
+          "name": "gliderlabs/sigil",
+          "stars": 419,
+          "forks": 46,
+          "url": "https://github.com/gliderlabs/sigil",
+          "file": "sigil.go"
+        },
+        {
+          "name": "jinzhu/configor",
+          "stars": 1794,
+          "forks": 211,
+          "url": "https://github.com/jinzhu/configor",
+          "file": "utils.go"
+        },
+        {
+          "name": "rsc/web",
+          "stars": 154,
+          "forks": 9,
+          "url": "https://github.com/rsc/web",
+          "file": "tmpl.go"
+        },
+        {
+          "name": "tucnak/store",
+          "stars": 274,
+          "forks": 20,
+          "url": "https://github.com/tucnak/store",
+          "file": "store.go"
+        },
+        {
+          "name": "relex/aini",
+          "stars": 105,
+          "forks": 14,
+          "url": "https://github.com/relex/aini",
+          "file": "vars.go"
+        },
+        {
+          "name": "GroundSix/asink",
+          "stars": 25,
+          "forks": 0,
+          "url": "https://github.com/GroundSix/asink",
+          "file": "yaml.go"
+        },
+        {
+          "name": "darccio/zas",
+          "stars": 215,
+          "forks": 16,
+          "url": "https://github.com/darccio/zas",
+          "file": "init.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:52:45Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe502-json-decoder-interface",
+        "query": "language:go \"json.NewDecoder\" \"interface{}\"",
+        "severity": "CRITICAL",
+        "description": "CWE-502: JSON decoder into interface{}"
+      },
+      "count": 62272,
+      "top_repos": [
+        {
+          "name": "Shopify/toxiproxy",
+          "stars": 12044,
+          "forks": 501,
+          "url": "https://github.com/Shopify/toxiproxy",
+          "file": "api.go"
+        },
+        {
+          "name": "jmespath/jp",
+          "stars": 784,
+          "forks": 48,
+          "url": "https://github.com/jmespath/jp",
+          "file": "jp.go"
+        },
+        {
+          "name": "piqoni/hn-text",
+          "stars": 511,
+          "forks": 11,
+          "url": "https://github.com/piqoni/hn-text",
+          "file": "web.go"
+        },
+        {
+          "name": "shurcooL/githubv4",
+          "stars": 1189,
+          "forks": 96,
+          "url": "https://github.com/shurcooL/githubv4",
+          "file": "gen.go"
+        },
+        {
+          "name": "manishrjain/gocrud",
+          "stars": 307,
+          "forks": 23,
+          "url": "https://github.com/manishrjain/gocrud",
+          "file": "x/x.go"
+        },
+        {
+          "name": "go-validator/validator",
+          "stars": 1335,
+          "forks": 124,
+          "url": "https://github.com/go-validator/validator",
+          "file": "doc.go"
+        },
+        {
+          "name": "wish/eventmaster",
+          "stars": 11,
+          "forks": 6,
+          "url": "https://github.com/wish/eventmaster",
+          "file": "dcs.go"
+        },
+        {
+          "name": "eaigner/hood",
+          "stars": 709,
+          "forks": 49,
+          "url": "https://github.com/eaigner/hood",
+          "file": "hood.go"
+        },
+        {
+          "name": "kkyr/fig",
+          "stars": 383,
+          "forks": 33,
+          "url": "https://github.com/kkyr/fig",
+          "file": "fig.go"
+        },
+        {
+          "name": "caltechlibrary/datatools",
+          "stars": 81,
+          "forks": 10,
+          "url": "https://github.com/caltechlibrary/datatools",
+          "file": "csv.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:52:54Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe502-xml-unmarshal-interface",
+        "query": "language:go \"xml.Unmarshal\" \"interface{}\"",
+        "severity": "CRITICAL",
+        "description": "CWE-502: XML deserialization into interface{}"
+      },
+      "count": 3648,
+      "top_repos": [
+        {
+          "name": "Checkmarx/kics",
+          "stars": 2638,
+          "forks": 368,
+          "url": "https://github.com/Checkmarx/kics",
+          "file": "e2e/utils/xml.go"
+        },
+        {
+          "name": "eatmoreapple/openwechat",
+          "stars": 5475,
+          "forks": 1004,
+          "url": "https://github.com/eatmoreapple/openwechat",
+          "file": "message.go"
+        },
+        {
+          "name": "devfeel/dotweb",
+          "stars": 1382,
+          "forks": 178,
+          "url": "https://github.com/devfeel/dotweb",
+          "file": "bind.go"
+        },
+        {
+          "name": "aliyun/aliyun-oss-go-sdk",
+          "stars": 983,
+          "forks": 228,
+          "url": "https://github.com/aliyun/aliyun-oss-go-sdk",
+          "file": "oss/conn.go"
+        },
+        {
+          "name": "esap/wechat",
+          "stars": 482,
+          "forks": 93,
+          "url": "https://github.com/esap/wechat",
+          "file": "server.go"
+        },
+        {
+          "name": "xormplus/xorm",
+          "stars": 1555,
+          "forks": 220,
+          "url": "https://github.com/xormplus/xorm",
+          "file": "sqlmap.go"
+        },
+        {
+          "name": "bndr/gojenkins",
+          "stars": 903,
+          "forks": 454,
+          "url": "https://github.com/bndr/gojenkins",
+          "file": "credentials.go"
+        },
+        {
+          "name": "tiaguinho/gosoap",
+          "stars": 542,
+          "forks": 184,
+          "url": "https://github.com/tiaguinho/gosoap",
+          "file": "response.go"
+        },
+        {
+          "name": "jotform/jotform-api-go",
+          "stars": 3,
+          "forks": 8,
+          "url": "https://github.com/jotform/jotform-api-go",
+          "file": "v2/JotForm.go"
+        },
+        {
+          "name": "fwhezfwhez/tcpx",
+          "stars": 232,
+          "forks": 45,
+          "url": "https://github.com/fwhezfwhez/tcpx",
+          "file": "marshaller.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:53:03Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe502-yaml-v2-import",
+        "query": "language:go \"gopkg.in/yaml.v2\"",
+        "severity": "HIGH",
+        "description": "CWE-502: Using yaml.v2 (vulnerable to custom tags)"
+      },
+      "count": 9088,
+      "top_repos": [
+        {
+          "name": "nwidger/nintengo",
+          "stars": 1296,
+          "forks": 52,
+          "url": "https://github.com/nwidger/nintengo",
+          "file": "main.go"
+        },
+        {
+          "name": "koding/multiconfig",
+          "stars": 449,
+          "forks": 62,
+          "url": "https://github.com/koding/multiconfig",
+          "file": "file.go"
+        },
+        {
+          "name": "uber-go/config",
+          "stars": 472,
+          "forks": 42,
+          "url": "https://github.com/uber-go/config",
+          "file": "doc.go"
+        },
+        {
+          "name": "byorty/mgun",
+          "stars": 31,
+          "forks": 11,
+          "url": "https://github.com/byorty/mgun",
+          "file": "mgun.go"
+        },
+        {
+          "name": "kufu-ai/gocat",
+          "stars": 11,
+          "forks": 7,
+          "url": "https://github.com/kufu-ai/gocat",
+          "file": "git.go"
+        },
+        {
+          "name": "bitrise-steplib/steps-check",
+          "stars": 0,
+          "forks": 0,
+          "url": "https://github.com/bitrise-steplib/steps-check",
+          "file": "e2e.go"
+        },
+        {
+          "name": "nathanleclaire/machine-compose",
+          "stars": 18,
+          "forks": 0,
+          "url": "https://github.com/nathanleclaire/machine-compose",
+          "file": "moby.go"
+        },
+        {
+          "name": "CenGinHong/tiny-cache",
+          "stars": 0,
+          "forks": 0,
+          "url": "https://github.com/CenGinHong/tiny-cache",
+          "file": "conf.go"
+        },
+        {
+          "name": "tzmfreedom/spm",
+          "stars": 8,
+          "forks": 3,
+          "url": "https://github.com/tzmfreedom/spm",
+          "file": "util.go"
+        },
+        {
+          "name": "maxbeizer/gh-contrib",
+          "stars": 3,
+          "forks": 0,
+          "url": "https://github.com/maxbeizer/gh-contrib",
+          "file": "main.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:53:12Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe79-html-template-unescaped",
+        "query": "language:go \"html/template\" HTML",
+        "severity": "HIGH",
+        "description": "CWE-79: Potential XSS via HTML template rendering"
+      },
+      "count": 10008,
+      "top_repos": [
+        {
+          "name": "subspacecloud/subspace",
+          "stars": 2596,
+          "forks": 449,
+          "url": "https://github.com/subspacecloud/subspace",
+          "file": "web.go"
+        },
+        {
+          "name": "choonkeat/dom-go",
+          "stars": 2,
+          "forks": 0,
+          "url": "https://github.com/choonkeat/dom-go",
+          "file": "dom.go"
+        },
+        {
+          "name": "yahoo/webseclab",
+          "stars": 908,
+          "forks": 66,
+          "url": "https://github.com/yahoo/webseclab",
+          "file": "ctx.go"
+        },
+        {
+          "name": "soundscapecloud/soundscape",
+          "stars": 747,
+          "forks": 46,
+          "url": "https://github.com/soundscapecloud/soundscape",
+          "file": "web.go"
+        },
+        {
+          "name": "Rapyd-Samples/accept-payments",
+          "stars": 17,
+          "forks": 7,
+          "url": "https://github.com/Rapyd-Samples/accept-payments",
+          "file": "go/html.go"
+        },
+        {
+          "name": "amgadramses/GUC-SwitchHub",
+          "stars": 0,
+          "forks": 0,
+          "url": "https://github.com/amgadramses/GUC-SwitchHub",
+          "file": "main.go"
+        },
+        {
+          "name": "apo2983/private-isu",
+          "stars": 0,
+          "forks": 0,
+          "url": "https://github.com/apo2983/private-isu",
+          "file": "app.go"
+        },
+        {
+          "name": "29decibel/digestor",
+          "stars": 6,
+          "forks": 2,
+          "url": "https://github.com/29decibel/digestor",
+          "file": "rss.go"
+        },
+        {
+          "name": "leekchan/gtf",
+          "stars": 321,
+          "forks": 18,
+          "url": "https://github.com/leekchan/gtf",
+          "file": "gtf.go"
+        },
+        {
+          "name": "alicebob/ssp",
+          "stars": 33,
+          "forks": 18,
+          "url": "https://github.com/alicebob/ssp",
+          "file": "mux.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:53:21Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe79-writer-write-user-input",
+        "query": "language:go \"fmt.Fprintf\" \"w http.ResponseWriter\"",
+        "severity": "HIGH",
+        "description": "CWE-79: Direct write to ResponseWriter (potential XSS)"
+      },
+      "count": 32576,
+      "top_repos": [
+        {
+          "name": "subspacecloud/subspace",
+          "stars": 2596,
+          "forks": 449,
+          "url": "https://github.com/subspacecloud/subspace",
+          "file": "web.go"
+        },
+        {
+          "name": "tenox7/wrp",
+          "stars": 1259,
+          "forks": 61,
+          "url": "https://github.com/tenox7/wrp",
+          "file": "wrp.go"
+        },
+        {
+          "name": "auth0/go-jwt-middleware",
+          "stars": 1203,
+          "forks": 208,
+          "url": "https://github.com/auth0/go-jwt-middleware",
+          "file": "doc.go"
+        },
+        {
+          "name": "kayac/go-katsubushi",
+          "stars": 196,
+          "forks": 22,
+          "url": "https://github.com/kayac/go-katsubushi",
+          "file": "http.go"
+        },
+        {
+          "name": "boringproxy/boringproxy",
+          "stars": 1374,
+          "forks": 133,
+          "url": "https://github.com/boringproxy/boringproxy",
+          "file": "api.go"
+        },
+        {
+          "name": "dailymotion/oplog",
+          "stars": 111,
+          "forks": 13,
+          "url": "https://github.com/dailymotion/oplog",
+          "file": "sse.go"
+        },
+        {
+          "name": "traefik/whoami",
+          "stars": 1377,
+          "forks": 249,
+          "url": "https://github.com/traefik/whoami",
+          "file": "app.go"
+        },
+        {
+          "name": "moneymanagerex/general-reports",
+          "stars": 83,
+          "forks": 50,
+          "url": "https://github.com/moneymanagerex/general-reports",
+          "file": "grm.go"
+        },
+        {
+          "name": "Sean-Der/OBS2Browser",
+          "stars": 149,
+          "forks": 7,
+          "url": "https://github.com/Sean-Der/OBS2Browser",
+          "file": "main.go"
+        },
+        {
+          "name": "andybalholm/redwood",
+          "stars": 251,
+          "forks": 37,
+          "url": "https://github.com/andybalholm/redwood",
+          "file": "pac.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:53:30Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe79-template-js",
+        "query": "language:go template.JS",
+        "severity": "HIGH",
+        "description": "CWE-79: Using template.JS (bypasses escaping)"
+      },
+      "count": 2920,
+      "top_repos": [
+        {
+          "name": "leanote/leanote",
+          "stars": 11699,
+          "forks": 2445,
+          "url": "https://github.com/leanote/leanote",
+          "file": "app/init.go"
+        },
+        {
+          "name": "schollz/find",
+          "stars": 5091,
+          "forks": 368,
+          "url": "https://github.com/schollz/find",
+          "file": "routes.go"
+        },
+        {
+          "name": "go-echarts/go-echarts",
+          "stars": 7611,
+          "forks": 592,
+          "url": "https://github.com/go-echarts/go-echarts",
+          "file": "render/engine.go"
+        },
+        {
+          "name": "remind101/empire",
+          "stars": 2679,
+          "forks": 155,
+          "url": "https://github.com/remind101/empire",
+          "file": "cmd/emp/help.go"
+        },
+        {
+          "name": "fullstorydev/grpcui",
+          "stars": 5895,
+          "forks": 423,
+          "url": "https://github.com/fullstorydev/grpcui",
+          "file": "webform.go"
+        },
+        {
+          "name": "selinuxG/Golin",
+          "stars": 1800,
+          "forks": 260,
+          "url": "https://github.com/selinuxG/Golin",
+          "file": "scan/end.go"
+        },
+        {
+          "name": "HDT3213/rdb",
+          "stars": 611,
+          "forks": 141,
+          "url": "https://github.com/HDT3213/rdb",
+          "file": "d3flame/web.go"
+        },
+        {
+          "name": "thedevsaddam/docgen",
+          "stars": 992,
+          "forks": 134,
+          "url": "https://github.com/thedevsaddam/docgen",
+          "file": "cmd/funcmap.go"
+        },
+        {
+          "name": "writefreely/writefreely",
+          "stars": 5161,
+          "forks": 375,
+          "url": "https://github.com/writefreely/writefreely",
+          "file": "collections.go"
+        },
+        {
+          "name": "swaggo/http-swagger",
+          "stars": 570,
+          "forks": 86,
+          "url": "https://github.com/swaggo/http-swagger",
+          "file": "swagger.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:53:40Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe89-sql-query-concat",
+        "query": "language:go \"db.Query\" \"fmt.Sprintf\"",
+        "severity": "CRITICAL",
+        "description": "CWE-89: SQL query with string concatenation"
+      },
+      "count": 7820,
+      "top_repos": [
+        {
+          "name": "haxpax/gosms",
+          "stars": 1469,
+          "forks": 150,
+          "url": "https://github.com/haxpax/gosms",
+          "file": "db.go"
+        },
+        {
+          "name": "LunaNode/lobster",
+          "stars": 85,
+          "forks": 24,
+          "url": "https://github.com/LunaNode/lobster",
+          "file": "vm.go"
+        },
+        {
+          "name": "nao1215/filesql",
+          "stars": 372,
+          "forks": 10,
+          "url": "https://github.com/nao1215/filesql",
+          "file": "ach.go"
+        },
+        {
+          "name": "snowflakedb/gosnowflake",
+          "stars": 356,
+          "forks": 166,
+          "url": "https://github.com/snowflakedb/gosnowflake",
+          "file": "doc.go"
+        },
+        {
+          "name": "faisaltheparttimecoder/mock-data",
+          "stars": 136,
+          "forks": 33,
+          "url": "https://github.com/faisaltheparttimecoder/mock-data",
+          "file": "sql.go"
+        },
+        {
+          "name": "kanatohodets/carbonsearch",
+          "stars": 23,
+          "forks": 4,
+          "url": "https://github.com/kanatohodets/carbonsearch",
+          "file": "main.go"
+        },
+        {
+          "name": "coocood/qbs",
+          "stars": 544,
+          "forks": 96,
+          "url": "https://github.com/coocood/qbs",
+          "file": "qbs.go"
+        },
+        {
+          "name": "osuripple/hanayo",
+          "stars": 11,
+          "forks": 51,
+          "url": "https://github.com/osuripple/hanayo",
+          "file": "dev.go"
+        },
+        {
+          "name": "alexwennerberg/fishbb",
+          "stars": 2,
+          "forks": 0,
+          "url": "https://github.com/alexwennerberg/fishbb",
+          "file": "feed.go"
+        },
+        {
+          "name": "canonical/lxd-demo-server",
+          "stars": 71,
+          "forks": 25,
+          "url": "https://github.com/canonical/lxd-demo-server",
+          "file": "db.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:53:49Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe89-sql-exec-concat",
+        "query": "language:go \"db.Exec\" \"+\" ",
+        "severity": "CRITICAL",
+        "description": "CWE-89: SQL exec with string concatenation"
+      },
+      "count": 30768,
+      "top_repos": [
+        {
+          "name": "go-pg/pg",
+          "stars": 5787,
+          "forks": 415,
+          "url": "https://github.com/go-pg/pg",
+          "file": "tx.go"
+        },
+        {
+          "name": "QLeelulu/goku",
+          "stars": 273,
+          "forks": 65,
+          "url": "https://github.com/QLeelulu/goku",
+          "file": "db.go"
+        },
+        {
+          "name": "mattn/qq",
+          "stars": 166,
+          "forks": 4,
+          "url": "https://github.com/mattn/qq",
+          "file": "qq.go"
+        },
+        {
+          "name": "coocood/qbs",
+          "stars": 544,
+          "forks": 96,
+          "url": "https://github.com/coocood/qbs",
+          "file": "qbs.go"
+        },
+        {
+          "name": "LunaNode/lobster",
+          "stars": 85,
+          "forks": 24,
+          "url": "https://github.com/LunaNode/lobster",
+          "file": "vm.go"
+        },
+        {
+          "name": "kwf2030/hiprice-chatbot",
+          "stars": 88,
+          "forks": 10,
+          "url": "https://github.com/kwf2030/hiprice-chatbot",
+          "file": "msg.go"
+        },
+        {
+          "name": "TritonHo/demo",
+          "stars": 154,
+          "forks": 27,
+          "url": "https://github.com/TritonHo/demo",
+          "file": "cat.go"
+        },
+        {
+          "name": "thc2cat/go-policyd",
+          "stars": 14,
+          "forks": 4,
+          "url": "https://github.com/thc2cat/go-policyd",
+          "file": "main.go"
+        },
+        {
+          "name": "osuripple/hanayo",
+          "stars": 11,
+          "forks": 51,
+          "url": "https://github.com/osuripple/hanayo",
+          "file": "pw.go"
+        },
+        {
+          "name": "johnlui/DIYSearchEngine",
+          "stars": 698,
+          "forks": 97,
+          "url": "https://github.com/johnlui/DIYSearchEngine",
+          "file": "art.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:53:58Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe89-raw-sql-interpolation",
+        "query": "language:go \"database/sql\" fmt.Sprintf SELECT",
+        "severity": "CRITICAL",
+        "description": "CWE-89: Raw SQL with string interpolation"
+      },
+      "count": 26832,
+      "top_repos": [
+        {
+          "name": "go-gorp/gorp",
+          "stars": 3756,
+          "forks": 375,
+          "url": "https://github.com/go-gorp/gorp",
+          "file": "db.go"
+        },
+        {
+          "name": "go-gorm/gen",
+          "stars": 2541,
+          "forks": 354,
+          "url": "https://github.com/go-gorm/gen",
+          "file": "do.go"
+        },
+        {
+          "name": "eaigner/hood",
+          "stars": 709,
+          "forks": 49,
+          "url": "https://github.com/eaigner/hood",
+          "file": "hood.go"
+        },
+        {
+          "name": "gernest/orange",
+          "stars": 22,
+          "forks": 4,
+          "url": "https://github.com/gernest/orange",
+          "file": "sql.go"
+        },
+        {
+          "name": "QLeelulu/goku",
+          "stars": 273,
+          "forks": 65,
+          "url": "https://github.com/QLeelulu/goku",
+          "file": "db.go"
+        },
+        {
+          "name": "go-sqlx/sqlx",
+          "stars": 31,
+          "forks": 3,
+          "url": "https://github.com/go-sqlx/sqlx",
+          "file": "sqlx.go"
+        },
+        {
+          "name": "arp242/zdb",
+          "stars": 14,
+          "forks": 1,
+          "url": "https://github.com/arp242/zdb",
+          "file": "zdb.go"
+        },
+        {
+          "name": "ysugimoto/gqb",
+          "stars": 5,
+          "forks": 1,
+          "url": "https://github.com/ysugimoto/gqb",
+          "file": "gqb.go"
+        },
+        {
+          "name": "gadp22/crema",
+          "stars": 1,
+          "forks": 0,
+          "url": "https://github.com/gadp22/crema",
+          "file": "dao.go"
+        },
+        {
+          "name": "rpadovani/sqlx-v2",
+          "stars": 2,
+          "forks": 0,
+          "url": "https://github.com/rpadovani/sqlx-v2",
+          "file": "tx.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:54:07Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe22-filepath-join-user-input",
+        "query": "language:go \"filepath.Join\" \"r.URL.Query\"",
+        "severity": "HIGH",
+        "description": "CWE-22: filepath.Join with user input"
+      },
+      "count": 5680,
+      "top_repos": [
+        {
+          "name": "putyy/res-downloader",
+          "stars": 17682,
+          "forks": 2189,
+          "url": "https://github.com/putyy/res-downloader",
+          "file": "core/http.go"
+        },
+        {
+          "name": "adnanh/webhook",
+          "stars": 11838,
+          "forks": 866,
+          "url": "https://github.com/adnanh/webhook",
+          "file": "webhook.go"
+        },
+        {
+          "name": "restic/rest-server",
+          "stars": 1420,
+          "forks": 173,
+          "url": "https://github.com/restic/rest-server",
+          "file": "repo/repo.go"
+        },
+        {
+          "name": "charmbracelet/soft-serve",
+          "stars": 6932,
+          "forks": 222,
+          "url": "https://github.com/charmbracelet/soft-serve",
+          "file": "pkg/web/git.go"
+        },
+        {
+          "name": "kelseyhightower/coreos-ipxe-server",
+          "stars": 221,
+          "forks": 49,
+          "url": "https://github.com/kelseyhightower/coreos-ipxe-server",
+          "file": "api.go"
+        },
+        {
+          "name": "pldubouilh/gossa",
+          "stars": 1084,
+          "forks": 80,
+          "url": "https://github.com/pldubouilh/gossa",
+          "file": "gossa.go"
+        },
+        {
+          "name": "k1LoW/deck",
+          "stars": 1216,
+          "forks": 36,
+          "url": "https://github.com/k1LoW/deck",
+          "file": "client.go"
+        },
+        {
+          "name": "sgreben/http-file-server",
+          "stars": 231,
+          "forks": 39,
+          "url": "https://github.com/sgreben/http-file-server",
+          "file": "server.go"
+        },
+        {
+          "name": "Illusionna/LocalTransfer",
+          "stars": 475,
+          "forks": 14,
+          "url": "https://github.com/Illusionna/LocalTransfer",
+          "file": "handler.go"
+        },
+        {
+          "name": "tailscale/golink",
+          "stars": 1873,
+          "forks": 138,
+          "url": "https://github.com/tailscale/golink",
+          "file": "golink.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:54:16Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe22-os-open-user-input",
+        "query": "language:go \"os.Open\" \"r.FormValue\"",
+        "severity": "HIGH",
+        "description": "CWE-22: os.Open with user-controlled path"
+      },
+      "count": 1380,
+      "top_repos": [
+        {
+          "name": "sajari/docconv",
+          "stars": 1779,
+          "forks": 242,
+          "url": "https://github.com/sajari/docconv",
+          "file": "docd/convert.go"
+        },
+        {
+          "name": "ondrajz/go-callvis",
+          "stars": 6486,
+          "forks": 432,
+          "url": "https://github.com/ondrajz/go-callvis",
+          "file": "analysis.go"
+        },
+        {
+          "name": "amirgamil/apollo",
+          "stars": 1377,
+          "forks": 51,
+          "url": "https://github.com/amirgamil/apollo",
+          "file": "pkg/apollo/server.go"
+        },
+        {
+          "name": "gokrazy/gokrazy",
+          "stars": 3464,
+          "forks": 135,
+          "url": "https://github.com/gokrazy/gokrazy",
+          "file": "update.go"
+        },
+        {
+          "name": "sausheong/gwp",
+          "stars": 1641,
+          "forks": 757,
+          "url": "https://github.com/sausheong/gwp",
+          "file": "Chapter_9_Leveraging_Go_Concurrency/mosaic_concurrent/main.go"
+        },
+        {
+          "name": "mattermost-community/mattermost-plugin-jenkins",
+          "stars": 35,
+          "forks": 19,
+          "url": "https://github.com/mattermost-community/mattermost-plugin-jenkins",
+          "file": "server/api.go"
+        },
+        {
+          "name": "ptt/pttweb",
+          "stars": 218,
+          "forks": 31,
+          "url": "https://github.com/ptt/pttweb",
+          "file": "pttweb.go"
+        },
+        {
+          "name": "tenox7/wrp",
+          "stars": 1259,
+          "forks": 61,
+          "url": "https://github.com/tenox7/wrp",
+          "file": "wrp.go"
+        },
+        {
+          "name": "NiStyle/ViBoard",
+          "stars": 233,
+          "forks": 8,
+          "url": "https://github.com/NiStyle/ViBoard",
+          "file": "src/MinView/app.go"
+        },
+        {
+          "name": "trusslab/brf",
+          "stars": 23,
+          "forks": 7,
+          "url": "https://github.com/trusslab/brf",
+          "file": "syz-manager/html.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:54:25Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe22-ioutil-readfile-param",
+        "query": "language:go \"ioutil.ReadFile\" \"filepath.Join\"",
+        "severity": "HIGH",
+        "description": "CWE-22: File read with constructed path"
+      },
+      "count": 7992,
+      "top_repos": [
+        {
+          "name": "utkusen/urlhunter",
+          "stars": 1678,
+          "forks": 116,
+          "url": "https://github.com/utkusen/urlhunter",
+          "file": "main.go"
+        },
+        {
+          "name": "mailgun/godebug",
+          "stars": 2481,
+          "forks": 102,
+          "url": "https://github.com/mailgun/godebug",
+          "file": "cmd.go"
+        },
+        {
+          "name": "nlf/dlite",
+          "stars": 2325,
+          "forks": 53,
+          "url": "https://github.com/nlf/dlite",
+          "file": "ssh.go"
+        },
+        {
+          "name": "git-hooks/git-hooks",
+          "stars": 419,
+          "forks": 42,
+          "url": "https://github.com/git-hooks/git-hooks",
+          "file": "dir.go"
+        },
+        {
+          "name": "robfig/glock",
+          "stars": 232,
+          "forks": 25,
+          "url": "https://github.com/robfig/glock",
+          "file": "sync.go"
+        },
+        {
+          "name": "paypal/gorealis",
+          "stars": 57,
+          "forks": 29,
+          "url": "https://github.com/paypal/gorealis",
+          "file": "util.go"
+        },
+        {
+          "name": "marco-lancini/goscan",
+          "stars": 1040,
+          "forks": 148,
+          "url": "https://github.com/marco-lancini/goscan",
+          "file": "goscan/core/scan/nmap.go"
+        },
+        {
+          "name": "mjl-/duit",
+          "stars": 968,
+          "forks": 37,
+          "url": "https://github.com/mjl-/duit",
+          "file": "duit.go"
+        },
+        {
+          "name": "vektra/gitreader",
+          "stars": 57,
+          "forks": 7,
+          "url": "https://github.com/vektra/gitreader",
+          "file": "repo.go"
+        },
+        {
+          "name": "golang101/golang101",
+          "stars": 5008,
+          "forks": 459,
+          "url": "https://github.com/golang101/golang101",
+          "file": "gen.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:54:34Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe78-exec-command-user-input",
+        "query": "language:go \"exec.Command\" \"r.FormValue\"",
+        "severity": "CRITICAL",
+        "description": "CWE-78: exec.Command with user input"
+      },
+      "count": 1288,
+      "top_repos": [
+        {
+          "name": "tailscale/tailscale",
+          "stars": 31879,
+          "forks": 2592,
+          "url": "https://github.com/tailscale/tailscale",
+          "file": "feature/clientupdate/clientupdate.go"
+        },
+        {
+          "name": "chain/Core",
+          "stars": 1786,
+          "forks": 358,
+          "url": "https://github.com/chain/Core",
+          "file": "cmd/slashland/main.go"
+        },
+        {
+          "name": "gokrazy/gokrazy",
+          "stars": 3464,
+          "forks": 135,
+          "url": "https://github.com/gokrazy/gokrazy",
+          "file": "update.go"
+        },
+        {
+          "name": "remind101/empire",
+          "stars": 2679,
+          "forks": 155,
+          "url": "https://github.com/remind101/empire",
+          "file": "cmd/emp/auth.go"
+        },
+        {
+          "name": "git-lfs/git-lfs",
+          "stars": 14274,
+          "forks": 2222,
+          "url": "https://github.com/git-lfs/git-lfs",
+          "file": "t/cmd/lfstest-gitserver.go"
+        },
+        {
+          "name": "kevoreilly/CAPEv2",
+          "stars": 3210,
+          "forks": 571,
+          "url": "https://github.com/kevoreilly/CAPEv2",
+          "file": "agent/go/platform_windows.go"
+        },
+        {
+          "name": "vearch/vearch",
+          "stars": 2307,
+          "forks": 359,
+          "url": "https://github.com/vearch/vearch",
+          "file": "internal/debugutil/perfui.go"
+        },
+        {
+          "name": "gengo/goship",
+          "stars": 704,
+          "forks": 43,
+          "url": "https://github.com/gengo/goship",
+          "file": "deploy_handler.go"
+        },
+        {
+          "name": "canonical/lxd",
+          "stars": 4758,
+          "forks": 1016,
+          "url": "https://github.com/canonical/lxd",
+          "file": "lxd/images.go"
+        },
+        {
+          "name": "iuroc/bilidown",
+          "stars": 1633,
+          "forks": 186,
+          "url": "https://github.com/iuroc/bilidown",
+          "file": "server/router/task.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:54:43Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe78-exec-command-concat",
+        "query": "language:go \"exec.Command\" \"fmt.Sprintf\"",
+        "severity": "CRITICAL",
+        "description": "CWE-78: exec.Command with string formatting"
+      },
+      "count": 48416,
+      "top_repos": [
+        {
+          "name": "ondrajz/go-callvis",
+          "stars": 6486,
+          "forks": 432,
+          "url": "https://github.com/ondrajz/go-callvis",
+          "file": "dot.go"
+        },
+        {
+          "name": "gokcehan/lf",
+          "stars": 9291,
+          "forks": 365,
+          "url": "https://github.com/gokcehan/lf",
+          "file": "os.go"
+        },
+        {
+          "name": "nlf/dlite",
+          "stars": 2325,
+          "forks": 53,
+          "url": "https://github.com/nlf/dlite",
+          "file": "ssh.go"
+        },
+        {
+          "name": "mattn/goreman",
+          "stars": 2634,
+          "forks": 206,
+          "url": "https://github.com/mattn/goreman",
+          "file": "proc.go"
+        },
+        {
+          "name": "shunfei/cronsun",
+          "stars": 2916,
+          "forks": 457,
+          "url": "https://github.com/shunfei/cronsun",
+          "file": "job.go"
+        },
+        {
+          "name": "pressly/sup",
+          "stars": 2517,
+          "forks": 184,
+          "url": "https://github.com/pressly/sup",
+          "file": "tar.go"
+        },
+        {
+          "name": "noisetorch/NoiseTorch",
+          "stars": 10258,
+          "forks": 251,
+          "url": "https://github.com/noisetorch/NoiseTorch",
+          "file": "ui.go"
+        },
+        {
+          "name": "git-lfs/lfs-test-server",
+          "stars": 790,
+          "forks": 183,
+          "url": "https://github.com/git-lfs/lfs-test-server",
+          "file": "tus.go"
+        },
+        {
+          "name": "wickenico/WailBrew",
+          "stars": 2550,
+          "forks": 95,
+          "url": "https://github.com/wickenico/WailBrew",
+          "file": "app.go"
+        },
+        {
+          "name": "codeskyblue/go-sh",
+          "stars": 1134,
+          "forks": 137,
+          "url": "https://github.com/codeskyblue/go-sh",
+          "file": "sh.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:54:53Z"
+    },
+    {
+      "pattern": {
+        "name": "cwe78-shell-exec",
+        "query": "language:go exec.Command \"sh\" \"-c\"",
+        "severity": "CRITICAL",
+        "description": "CWE-78: Shell command execution"
+      },
+      "count": 42720,
+      "top_repos": [
+        {
+          "name": "appuio/acme-tiny",
+          "stars": 0,
+          "forks": 0,
+          "url": "https://github.com/appuio/acme-tiny",
+          "file": "docker/sh.go"
+        },
+        {
+          "name": "otm/blade",
+          "stars": 68,
+          "forks": 1,
+          "url": "https://github.com/otm/blade",
+          "file": "lua.go"
+        },
+        {
+          "name": "apex/up",
+          "stars": 8804,
+          "forks": 387,
+          "url": "https://github.com/apex/up",
+          "file": "up.go"
+        },
+        {
+          "name": "julz/just",
+          "stars": 0,
+          "forks": 0,
+          "url": "https://github.com/julz/just",
+          "file": "cmd.go"
+        },
+        {
+          "name": "cosiner/socker",
+          "stars": 252,
+          "forks": 13,
+          "url": "https://github.com/cosiner/socker",
+          "file": "ssh.go"
+        },
+        {
+          "name": "codeskyblue/go-sh",
+          "stars": 1134,
+          "forks": 137,
+          "url": "https://github.com/codeskyblue/go-sh",
+          "file": "sh.go"
+        },
+        {
+          "name": "InkProject/ink",
+          "stars": 1088,
+          "forks": 117,
+          "url": "https://github.com/InkProject/ink",
+          "file": "main.go"
+        },
+        {
+          "name": "gokcehan/lf",
+          "stars": 9291,
+          "forks": 365,
+          "url": "https://github.com/gokcehan/lf",
+          "file": "os.go"
+        },
+        {
+          "name": "wickenico/WailBrew",
+          "stars": 2550,
+          "forks": 95,
+          "url": "https://github.com/wickenico/WailBrew",
+          "file": "app.go"
+        },
+        {
+          "name": "scipipe/scipipe",
+          "stars": 1113,
+          "forks": 73,
+          "url": "https://github.com/scipipe/scipipe",
+          "file": "ip.go"
+        }
+      ],
+      "searched_at": "2026-05-24T00:55:02Z"
+    }
+  ]
+}
