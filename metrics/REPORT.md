@@ -1,6 +1,6 @@
 # Go Ecosystem Vulnerability Impact Report
 
-**Generated:** 2026-06-14 01:01 UTC
+**Generated:** 2026-06-21 01:02 UTC
 **Scanner:** [go-safeinput](https://github.com/ravisastryk/go-safeinput)
 **Coverage:** MITRE CWE Top 25 vulnerabilities
 
@@ -8,17 +8,17 @@
 
 | Metric | Value |
 |--------|-------|
-| **Total Vulnerable Instances** | **250176** |
-| Total Stars Affected | 115132 |
-| Total Forks Affected | 11057 |
+| **Total Vulnerable Instances** | **242824** |
+| Total Stars Affected | 84159 |
+| Total Forks Affected | 8862 |
 | CWEs Analyzed | 5 |
 
 ## Vulnerability Breakdown by CWE
 
 | CWE | Vulnerability Type | Instances | Severity |
 |-----|-------------------|-----------|----------|
-| **CWE-502** | Deserialization of Untrusted Data | **192444** | CRITICAL |
-| **CWE-79** | Cross-site Scripting (XSS) | **57732** | HIGH |
+| **CWE-502** | Deserialization of Untrusted Data | **186844** | CRITICAL |
+| **CWE-79** | Cross-site Scripting (XSS) | **55980** | HIGH |
 | **CWE-89** | SQL Injection | **0** | CRITICAL |
 | **CWE-22** | Path Traversal | **0** | HIGH |
 | **CWE-78** | OS Command Injection | **0** | CRITICAL |
@@ -27,16 +27,16 @@
 
 ### CWE-502: Deserialization of Untrusted Data
 
-- **CWE-502: JSON deserialization into interface{}**: 116352 instances
-- **CWE-502: YAML deserialization into interface{}**: 6868 instances
-- **CWE-502: JSON decoder into interface{}**: 57968 instances
-- **CWE-502: XML deserialization into interface{}**: 3880 instances
-- **CWE-502: Using yaml.v2 (vulnerable to custom tags)**: 7376 instances
+- **CWE-502: JSON deserialization into interface{}**: 112128 instances
+- **CWE-502: YAML deserialization into interface{}**: 6448 instances
+- **CWE-502: JSON decoder into interface{}**: 56528 instances
+- **CWE-502: XML deserialization into interface{}**: 3872 instances
+- **CWE-502: Using yaml.v2 (vulnerable to custom tags)**: 7868 instances
 
 ### CWE-79: Cross-site Scripting (XSS)
 
-- **CWE-79: Potential XSS via HTML template rendering**: 16164 instances
-- **CWE-79: Direct write to ResponseWriter (potential XSS)**: 41568 instances
+- **CWE-79: Potential XSS via HTML template rendering**: 15884 instances
+- **CWE-79: Direct write to ResponseWriter (potential XSS)**: 40096 instances
 
 ### CWE-89: SQL Injection
 
