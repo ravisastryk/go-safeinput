@@ -1,6 +1,6 @@
 # Go Ecosystem Vulnerability Impact Report
 
-**Generated:** 2026-07-05 00:48 UTC
+**Generated:** 2026-07-12 00:42 UTC
 **Scanner:** [go-safeinput](https://github.com/ravisastryk/go-safeinput)
 **Coverage:** MITRE CWE Top 25 vulnerabilities
 
@@ -8,54 +8,54 @@
 
 | Metric | Value |
 |--------|-------|
-| **Total Vulnerable Instances** | **1425229** |
-| Total Stars Affected | 234397 |
-| Total Forks Affected | 22947 |
+| **Total Vulnerable Instances** | **1378836** |
+| Total Stars Affected | 623585 |
+| Total Forks Affected | 54224 |
 | CWEs Analyzed | 5 |
 
 ## Vulnerability Breakdown by CWE
 
 | CWE | Vulnerability Type | Instances | Severity |
 |-----|-------------------|-----------|----------|
-| **CWE-502** | Deserialization of Untrusted Data | **636297** | CRITICAL |
-| **CWE-79** | Cross-site Scripting (XSS) | **186440** | HIGH |
-| **CWE-89** | SQL Injection | **441856** | CRITICAL |
-| **CWE-22** | Path Traversal | **32924** | HIGH |
-| **CWE-78** | OS Command Injection | **127712** | CRITICAL |
+| **CWE-502** | Deserialization of Untrusted Data | **895312** | CRITICAL |
+| **CWE-79** | Cross-site Scripting (XSS) | **143208** | HIGH |
+| **CWE-89** | SQL Injection | **176680** | CRITICAL |
+| **CWE-22** | Path Traversal | **26932** | HIGH |
+| **CWE-78** | OS Command Injection | **136704** | CRITICAL |
 
 ## Detailed Pattern Analysis
 
 ### CWE-502: Deserialization of Untrusted Data
 
-- **CWE-502: JSON deserialization into interface{}**: 590848 instances
-- **CWE-502: YAML deserialization into interface{}**: 45184 instances
-- **CWE-502: JSON decoder into interface{}**: 106 instances
-- **CWE-502: XML deserialization into interface{}**: 116 instances
-- **CWE-502: Using yaml.v2 (vulnerable to custom tags)**: 43 instances
+- **CWE-502: JSON deserialization into interface{}**: 595968 instances
+- **CWE-502: YAML deserialization into interface{}**: 21552 instances
+- **CWE-502: JSON decoder into interface{}**: 215552 instances
+- **CWE-502: XML deserialization into interface{}**: 9760 instances
+- **CWE-502: Using yaml.v2 (vulnerable to custom tags)**: 52480 instances
 
 ### CWE-79: Cross-site Scripting (XSS)
 
-- **CWE-79: Potential XSS via HTML template rendering**: 143616 instances
-- **CWE-79: Direct write to ResponseWriter (potential XSS)**: 39040 instances
-- **CWE-79: Using template.JS (bypasses escaping)**: 3784 instances
+- **CWE-79: Potential XSS via HTML template rendering**: 15160 instances
+- **CWE-79: Direct write to ResponseWriter (potential XSS)**: 123904 instances
+- **CWE-79: Using template.JS (bypasses escaping)**: 4144 instances
 
 ### CWE-89: SQL Injection
 
-- **CWE-89: SQL query with string concatenation**: 140288 instances
-- **CWE-89: SQL exec with string concatenation**: 159744 instances
-- **CWE-89: Raw SQL with string interpolation**: 141824 instances
+- **CWE-89: SQL query with string concatenation**: 10024 instances
+- **CWE-89: SQL exec with string concatenation**: 25600 instances
+- **CWE-89: Raw SQL with string interpolation**: 141056 instances
 
 ### CWE-22: Path Traversal
 
-- **CWE-22: filepath.Join with user input**: 15712 instances
-- **CWE-22: os.Open with user-controlled path**: 3728 instances
-- **CWE-22: File read with constructed path**: 13484 instances
+- **CWE-22: filepath.Join with user input**: 16544 instances
+- **CWE-22: os.Open with user-controlled path**: 1328 instances
+- **CWE-22: File read with constructed path**: 9060 instances
 
 ### CWE-78: OS Command Injection
 
-- **CWE-78: exec.Command with user input**: 2944 instances
-- **CWE-78: exec.Command with string formatting**: 50560 instances
-- **CWE-78: Shell command execution**: 74208 instances
+- **CWE-78: exec.Command with user input**: 2032 instances
+- **CWE-78: exec.Command with string formatting**: 56560 instances
+- **CWE-78: Shell command execution**: 78112 instances
 
 ## Fix with go-safeinput
 
