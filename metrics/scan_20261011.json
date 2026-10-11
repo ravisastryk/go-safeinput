@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-10-11T00:40:10Z",
+  "scanner": "go-safeinput-scanner",
+  "scanner_repo": "https://github.com/ravisastryk/go-safeinput",
+  "total_vulnerable": 261120,
+  "total_stars": 8122,
+  "total_forks": 635,
+  "results": [
+    {
+      "pattern": {
+        "name": "cwe502-json-decoder-interface",
+        "query": "language:go \"json.NewDecoder\" \"interface{}\"",
+        "severity": "CRITICAL",
+        "description": "CWE-502: JSON decoder into interface{}"
+      },
+      "count": 261120,
+      "top_repos": [
+        {
+          "name": "codeskyblue/go-sh",
+          "stars": 1129,
+          "forks": 137,
+          "url": "https://github.com/codeskyblue/go-sh",
+          "file": "pipe.go"
+        },
+        {
+          "name": "annamedv/red",
+          "stars": 1489,
+          "forks": 52,
+          "url": "https://github.com/annamedv/red",
+          "file": "main.go"
+        },
+        {
+          "name": "staticbackendhq/core",
+          "stars": 742,
+          "forks": 72,
+          "url": "https://github.com/staticbackendhq/core",
+          "file": "db.go"
+        },
+        {
+          "name": "jmoiron/jsonq",
+          "stars": 585,
+          "forks": 68,
+          "url": "https://github.com/jmoiron/jsonq",
+          "file": "doc.go"
+        },
+        {
+          "name": "jmespath/jp",
+          "stars": 788,
+          "forks": 48,
+          "url": "https://github.com/jmespath/jp",
+          "file": "jp.go"
+        },
+        {
+          "name": "shurcooL/githubv4",
+          "stars": 1199,
+          "forks": 96,
+          "url": "https://github.com/shurcooL/githubv4",
+          "file": "gen.go"
+        },
+        {
+          "name": "piqoni/hn-text",
+          "stars": 508,
+          "forks": 12,
+          "url": "https://github.com/piqoni/hn-text",
+          "file": "web.go"
+        },
+        {
+          "name": "manishrjain/gocrud",
+          "stars": 307,
+          "forks": 23,
+          "url": "https://github.com/manishrjain/gocrud",
+          "file": "x/x.go"
+        },
+        {
+          "name": "sourcegraph/run",
+          "stars": 41,
+          "forks": 3,
+          "url": "https://github.com/sourcegraph/run",
+          "file": "jq.go"
+        },
+        {
+          "name": "go-validator/validator",
+          "stars": 1334,
+          "forks": 124,
+          "url": "https://github.com/go-validator/validator",
+          "file": "doc.go"
+        }
+      ],
+      "searched_at": "2026-10-11T00:40:10Z"
+    }
+  ]
+}
