@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-10-18T00:34:22Z",
+  "scanner": "go-safeinput-scanner",
+  "scanner_repo": "https://github.com/ravisastryk/go-safeinput",
+  "total_vulnerable": 48256,
+  "total_stars": 9531,
+  "total_forks": 1387,
+  "results": [
+    {
+      "pattern": {
+        "name": "cwe502-yaml-unmarshal-interface",
+        "query": "language:go \"yaml.Unmarshal\" \"interface{}\"",
+        "severity": "CRITICAL",
+        "description": "CWE-502: YAML deserialization into interface{}"
+      },
+      "count": 48256,
+      "top_repos": [
+        {
+          "name": "google/go-jsonnet",
+          "stars": 1855,
+          "forks": 266,
+          "url": "https://github.com/google/go-jsonnet",
+          "file": "yaml.go"
+        },
+        {
+          "name": "FalconForceTeam/FalconHound",
+          "stars": 829,
+          "forks": 59,
+          "url": "https://github.com/FalconForceTeam/FalconHound",
+          "file": "main.go"
+        },
+        {
+          "name": "helmfile/vals",
+          "stars": 788,
+          "forks": 104,
+          "url": "https://github.com/helmfile/vals",
+          "file": "vals.go"
+        },
+        {
+          "name": "goccy/go-yaml",
+          "stars": 2241,
+          "forks": 269,
+          "url": "https://github.com/goccy/go-yaml",
+          "file": "yaml.go"
+        },
+        {
+          "name": "vektra/tachyon",
+          "stars": 280,
+          "forks": 27,
+          "url": "https://github.com/vektra/tachyon",
+          "file": "util.go"
+        },
+        {
+          "name": "gliderlabs/sigil",
+          "stars": 420,
+          "forks": 45,
+          "url": "https://github.com/gliderlabs/sigil",
+          "file": "sigil.go"
+        },
+        {
+          "name": "tsuru/config",
+          "stars": 45,
+          "forks": 13,
+          "url": "https://github.com/tsuru/config",
+          "file": "config.go"
+        },
+        {
+          "name": "codeskyblue/gohttpserver",
+          "stars": 2843,
+          "forks": 582,
+          "url": "https://github.com/codeskyblue/gohttpserver",
+          "file": "main.go"
+        },
+        {
+          "name": "ovh/configstore",
+          "stars": 76,
+          "forks": 13,
+          "url": "https://github.com/ovh/configstore",
+          "file": "item.go"
+        },
+        {
+          "name": "rsc/web",
+          "stars": 154,
+          "forks": 9,
+          "url": "https://github.com/rsc/web",
+          "file": "tmpl.go"
+        }
+      ],
+      "searched_at": "2026-10-18T00:34:22Z"
+    }
+  ]
+}
