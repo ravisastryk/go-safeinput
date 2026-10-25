@@ -1,6 +1,6 @@
 # Go Ecosystem Vulnerability Impact Report
 
-**Generated:** 2026-10-11 00:40 UTC
+**Generated:** 2026-10-25 00:34 UTC
 **Scanner:** [go-safeinput](https://github.com/ravisastryk/go-safeinput)
 **Coverage:** MITRE CWE Top 25 vulnerabilities
 
@@ -8,16 +8,16 @@
 
 | Metric | Value |
 |--------|-------|
-| **Total Vulnerable Instances** | **261120** |
-| Total Stars Affected | 8122 |
-| Total Forks Affected | 635 |
+| **Total Vulnerable Instances** | **1054720** |
+| Total Stars Affected | 14341 |
+| Total Forks Affected | 1251 |
 | CWEs Analyzed | 5 |
 
 ## Vulnerability Breakdown by CWE
 
 | CWE | Vulnerability Type | Instances | Severity |
 |-----|-------------------|-----------|----------|
-| **CWE-502** | Deserialization of Untrusted Data | **261120** | CRITICAL |
+| **CWE-502** | Deserialization of Untrusted Data | **1054720** | CRITICAL |
 | **CWE-79** | Cross-site Scripting (XSS) | **0** | HIGH |
 | **CWE-89** | SQL Injection | **0** | CRITICAL |
 | **CWE-22** | Path Traversal | **0** | HIGH |
@@ -27,7 +27,7 @@
 
 ### CWE-502: Deserialization of Untrusted Data
 
-- **CWE-502: JSON decoder into interface{}**: 261120 instances
+- **CWE-502: JSON deserialization into interface{}**: 1054720 instances
 
 ### CWE-79: Cross-site Scripting (XSS)
 

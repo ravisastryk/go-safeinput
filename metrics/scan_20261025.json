@@ -1,0 +1,85 @@
+{
+  "generated_at": "2026-10-25T00:34:05Z",
+  "scanner": "go-safeinput-scanner",
+  "scanner_repo": "https://github.com/ravisastryk/go-safeinput",
+  "total_vulnerable": 1054720,
+  "total_stars": 14341,
+  "total_forks": 1251,
+  "results": [
+    {
+      "pattern": {
+        "name": "cwe502-json-unmarshal-interface",
+        "query": "language:go \"json.Unmarshal\" \"interface{}\"",
+        "severity": "CRITICAL",
+        "description": "CWE-502: JSON deserialization into interface{}"
+      },
+      "count": 1054720,
+      "top_repos": [
+        {
+          "name": "hakluke/haktrails",
+          "stars": 603,
+          "forks": 65,
+          "url": "https://github.com/hakluke/haktrails",
+          "file": "dsl.go"
+        },
+        {
+          "name": "git-hooks/git-hooks",
+          "stars": 418,
+          "forks": 42,
+          "url": "https://github.com/git-hooks/git-hooks",
+          "file": "dir.go"
+        },
+        {
+          "name": "zserge/lorca",
+          "stars": 8207,
+          "forks": 535,
+          "url": "https://github.com/zserge/lorca",
+          "file": "ui.go"
+        },
+        {
+          "name": "mattn/go-v8",
+          "stars": 266,
+          "forks": 37,
+          "url": "https://github.com/mattn/go-v8",
+          "file": "v8.go"
+        },
+        {
+          "name": "gocraft/work",
+          "stars": 2523,
+          "forks": 354,
+          "url": "https://github.com/gocraft/work",
+          "file": "job.go"
+        },
+        {
+          "name": "fluxio/go-v8",
+          "stars": 18,
+          "forks": 5,
+          "url": "https://github.com/fluxio/go-v8",
+          "file": "v8.go"
+        },
+        {
+          "name": "scipipe/scipipe",
+          "stars": 1110,
+          "forks": 73,
+          "url": "https://github.com/scipipe/scipipe",
+          "file": "ip.go"
+        },
+        {
+          "name": "keroserene/go-webrtc",
+          "stars": 454,
+          "forks": 69,
+          "url": "https://github.com/keroserene/go-webrtc",
+          "file": "sdp.go"
+        },
+        {
+          "name": "staticbackendhq/core",
+          "stars": 742,
+          "forks": 71,
+          "url": "https://github.com/staticbackendhq/core",
+          "file": "ui.go"
+        }
+      ],
+      "searched_at": "2026-10-25T00:34:05Z"
+    }
+  ]
+}
